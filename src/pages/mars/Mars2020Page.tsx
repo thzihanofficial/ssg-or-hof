@@ -13,6 +13,7 @@ export const Mars2020Page: React.FC = () => {
       statusBadge="Historical Achievement"
       isStillActive={false}
       name="Mars 2020 / Perseverance & Ingenuity"
+      audioSrc="/audios /mars/Mars2020Page.mp3"
       dateRange="2020 - Present"
       location="Jezero Crater Delta"
       imageSrc="https://upload.wikimedia.org/wikipedia/commons/5/58/Mars_helicopter_on_sol_46.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail_unscaled"

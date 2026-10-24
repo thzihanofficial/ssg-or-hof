@@ -13,6 +13,7 @@ export const SojournerPage: React.FC = () => {
       statusBadge="Historical Rover"
       isStillActive={false}
       name="Sojourner"
+      audioSrc="/audios /mars/SojournerPage.mp3"
       dateRange="July 1997 - Sept 1997"
       location="Ares Vallis"
       imageSrc="https://upload.wikimedia.org/wikipedia/commons/3/3a/Sojourner_on_Mars_PIA01122.jpg?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=original"

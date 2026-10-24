@@ -13,6 +13,7 @@ export const MarsGlobalSurveyorPage: React.FC = () => {
       statusBadge="Historical Orbiter"
       isStillActive={false}
       name="Mars Global Surveyor"
+      audioSrc="/audios /mars/MarsGlobalSurveyorPage.mp3"
       dateRange="1996 - 2006"
       location="Polar Orbit (Full Topographic Survey)"
       imageSrc="https://assets.science.nasa.gov/dynamicimage/assets/science/psd/solar/2023/07/mgs_768.jpg?w=768&h=650&fit=crop&crop=faces%2Cfocalpoint"

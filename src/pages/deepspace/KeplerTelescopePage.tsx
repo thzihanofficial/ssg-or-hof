@@ -13,6 +13,7 @@ export const KeplerTelescopePage: React.FC = () => {
       statusBadge="Historical Planet Hunter"
       isStillActive={false}
       name="Kepler Space Telescope"
+      audioSrc="/audios /deep_space/KeplerTelescopePage.mp3"
       dateRange="2009 – 2018"
       location="Earth-Trailing Heliocentric Orbit"
       imageSrc="https://images-assets.nasa.gov/image/PIA18904/PIA18904~large.jpg?w=1920&h=1536&fit=clip&crop=faces%2Cfocalpoint"

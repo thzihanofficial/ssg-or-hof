@@ -13,6 +13,7 @@ export const JamesWebbTelescopePage: React.FC = () => {
       statusBadge="Still Active"
       isStillActive={true}
       name="James Webb Space Telescope (JWST)"
+      audioSrc="/audios /deep_space/JamesWebbTelescopePage.mp3"
       dateRange="2021 – Present"
       location="Sun-Earth Lagrange Point 2 (L2)"
       imageSrc="https://science.nasa.gov/wp-content/uploads/2024/05/jwst_artist_concept_0.png"

@@ -13,6 +13,7 @@ export const NewHorizonsPage: React.FC = () => {
       statusBadge="Still Active"
       isStillActive={true}
       name="New Horizons"
+      audioSrc="/audios /deep_space/NewHorizonsPage.mp3"
       dateRange="2006 – Present"
       location="Kuiper Belt (Pluto & Arrokoth Flybys)"
       imageSrc="https://thumb.wikimedia.org/wikipedia/commons/thumb/3/32/15-011a-NewHorizons-PlutoFlyby-ArtistConcept-14July2015-20150115.jpg/960px-15-011a-NewHorizons-PlutoFlyby-ArtistConcept-14July2015-20150115.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail"

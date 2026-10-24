@@ -13,6 +13,7 @@ export const PhoenixMarsLanderPage: React.FC = () => {
       statusBadge="Historical Polar Lander"
       isStillActive={false}
       name="Phoenix Mars Lander"
+      audioSrc="/audios /mars/PhoenixMarsLanderPage.mp3"
       dateRange="2007 - 2008"
       location="Vastitas Borealis (Martian Arctic)"
       imageSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvHkX_W1m7F2Pv_S83CPWr9-9uoYkAFQwTsBW9CuwcZA&s=10"

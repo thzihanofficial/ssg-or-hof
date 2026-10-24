@@ -13,6 +13,7 @@ export const ClementinePage: React.FC = () => {
       statusBadge="Historical Landmark"
       isStillActive={false}
       name="Clementine"
+      audioSrc="/audios /moon/ClementinePage.mp3"
       dateRange="January 1994 - June 1994"
       location="Lunar Polar Orbit"
       imageSrc="https://images-assets.nasa.gov/image/PIA18159/PIA18159~orig.jpg"

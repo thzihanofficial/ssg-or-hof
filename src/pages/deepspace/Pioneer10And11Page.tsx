@@ -13,6 +13,7 @@ export const Pioneer10And11Page: React.FC = () => {
       statusBadge="Historical Pioneer"
       isStillActive={false}
       name="Pioneer 10 & 11"
+      audioSrc="/audios /deep_space/Pioneer10And11Page.mp3"
       dateRange="1972 - 2003"
       location="Outer Solar System & Interstellar Boundary"
       imageSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkHt2aJCzmgrBsEacizamxXaFUv29hfV17WqLQXs8g7g&s=10"

@@ -13,6 +13,7 @@ export const Surveyor567Page: React.FC = () => {
       statusBadge="Historical Landmark"
       isStillActive={false}
       name="Surveyor 5, 6 & 7"
+      audioSrc="/audios /moon/Surveyor567Page.mp3"
       dateRange="1967 - 1968"
       location="Mare Tranquillitatis, Sinus Medii & Tycho Crater"
       imageSrc="https://upload.wikimedia.org/wikipedia/commons/2/2a/Surveyor_NASA_lunar_lander.jpg?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=original"

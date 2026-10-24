@@ -13,6 +13,7 @@ export const OpportunityPage: React.FC = () => {
       statusBadge="Historical Rover Record"
       isStillActive={false}
       name="Opportunity / MER-B"
+      audioSrc="/audios /mars/OpportunityPage.mp3"
       dateRange="2004 - 2018"
       location="Meridiani Planum to Endeavour Crater"
       imageSrc="https://assets.science.nasa.gov/dynamicimage/assets/science/psd/solar/2023/07/1057_rover2_768.jpg?w=768&h=576&fit=clip&crop=faces%2Cfocalpoint"

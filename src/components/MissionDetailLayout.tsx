@@ -8,6 +8,8 @@ import {
   X, ExternalLink
 } from 'lucide-react';
 
+import { AudioStoryPlayer } from './AudioStoryPlayer';
+
 export interface MissionChapter {
   title: string;
   content: string;
@@ -39,6 +41,8 @@ export interface MissionDetailProps {
   imageSrc: string;
   imageAlt?: string;
   iframeSrc?: string;
+  audioSrc?: string; // Narrative voiceover .mp3 file path
+
   
   // Custom images arrays for new feature
   capturedImages?: string[]; // 4 images for modal popup
@@ -73,6 +77,107 @@ const DEFAULT_CAPTURED_IMAGES = [
   'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=1000&auto=format&fit=crop'
 ];
 
+// Audio file mappings for all mission pages using the exact provided filenames
+const AUDIO_LOOKUP: Record<string, string> = {
+  // Moon
+  '#/moon/surveyor1': '/audios /moon/Surveyor1Page.mp3',
+  '#/moon/surveyor3': '/audios /moon/Surveyor3Page.mp3',
+  '#/moon/surveyor567': '/audios /moon/Surveyor567Page.mp3',
+  '#/moon/clementine': '/audios /moon/ClementinePage.mp3',
+  '#/moon/apollo15lrv': '/audios /moon/Apollo15LrvPage.mp3',
+  '#/moon/apollo16lrv': '/audios /moon/Apollo16LrvPage.mp3',
+  '#/moon/apollo17lrv': '/audios /moon/Apollo17LrvPage.mp3',
+
+  // Mars
+  '#/mars/mariner6': '/audios /mars/Mariner6Page.mp3',
+  '#/mars/mariner7': '/audios /mars/Mariner7Page.mp3',
+  '#/mars/mariner9': '/audios /mars/Mariner9Page.mp3',
+  '#/mars/viking1and2': '/audios /mars/Viking1And2Page.mp3',
+  '#/mars/marsglobalsurveyor': '/audios /mars/MarsGlobalSurveyorPage.mp3',
+  '#/mars/marspathfinder': '/audios /mars/MarsPathfinderPage.mp3',
+  '#/mars/marsodyssey': '/audios /mars/MarsOdysseyPage.mp3',
+  '#/mars/spiritandopportunity': '/audios /mars/SpiritAndOpportunityPage.mp3',
+  '#/mars/marsreconnaissanceorbiter': '/audios /mars/MarsReconnaissanceOrbiterPage.mp3',
+  '#/mars/phoenixmarslander': '/audios /mars/PhoenixMarsLanderPage.mp3',
+  '#/mars/curiosityrover': '/audios /mars/CuriosityRoverPage.mp3',
+  '#/mars/maven': '/audios /mars/MavenPage.mp3',
+  '#/mars/insightlanders': '/audios /mars/InSightLandersPage.mp3',
+  '#/mars/mars2020': '/audios /mars/Mars2020Page.mp3',
+  '#/mars/sojourner': '/audios /mars/SojournerPage.mp3',
+  '#/mars/opportunity': '/audios /mars/OpportunityPage.mp3',
+  '#/mars/perseverance': '/audios /mars/PerseverancePage.mp3',
+
+  // Deep Space
+  '#/deep-space/marinerprogram': '/audios /deep_space/MarinerProgramPage.mp3',
+  '#/deep-space/pioneer10and11': '/audios /deep_space/Pioneer10And11Page.mp3',
+  '#/deep-space/voyager1and2': '/audios /deep_space/Voyager1And2Page.mp3',
+  '#/deep-space/messenger': '/audios /deep_space/MessengerPage.mp3',
+  '#/deep-space/newhorizons': '/audios /deep_space/NewHorizonsPage.mp3',
+  '#/deep-space/juno': '/audios /deep_space/JunoPage.mp3',
+  '#/deep-space/osirisrexapex': '/audios /deep_space/OsirisRexApexPage.mp3',
+  '#/deep-space/tiros1': '/audios /deep_space/Tiros1Page.mp3',
+  '#/deep-space/hubbletelescope': '/audios /deep_space/HubbleTelescopePage.mp3',
+  '#/deep-space/chandraobservatory': '/audios /deep_space/ChandraObservatoryPage.mp3',
+  '#/deep-space/keplertelescope': '/audios /deep_space/KeplerTelescopePage.mp3',
+  '#/deep-space/jameswebbtelescope': '/audios /deep_space/JamesWebbTelescopePage.mp3',
+};
+
+const MISSION_NAME_AUDIO_LOOKUP: Record<string, string> = {
+  // Moon
+  'Surveyor 1': '/audios /moon/Surveyor1Page.mp3',
+  'Surveyor 3': '/audios /moon/Surveyor3Page.mp3',
+  'Surveyor 5, 6 & 7': '/audios /moon/Surveyor567Page.mp3',
+  'Clementine': '/audios /moon/ClementinePage.mp3',
+  'Apollo 15 LRV': '/audios /moon/Apollo15LrvPage.mp3',
+  'Apollo 15 Lunar Rover': '/audios /moon/Apollo15LrvPage.mp3',
+  'Apollo 16 LRV': '/audios /moon/Apollo16LrvPage.mp3',
+  'Apollo 16 Lunar Rover': '/audios /moon/Apollo16LrvPage.mp3',
+  'Apollo 17 LRV': '/audios /moon/Apollo17LrvPage.mp3',
+  'Apollo 17 Lunar Rover': '/audios /moon/Apollo17LrvPage.mp3',
+
+  // Mars
+  'Mariner 6': '/audios /mars/Mariner6Page.mp3',
+  'Mariner 7': '/audios /mars/Mariner7Page.mp3',
+  'Mariner 9': '/audios /mars/Mariner9Page.mp3',
+  'Viking 1 & 2': '/audios /mars/Viking1And2Page.mp3',
+  'Mars Global Surveyor': '/audios /mars/MarsGlobalSurveyorPage.mp3',
+  'Mars Pathfinder': '/audios /mars/MarsPathfinderPage.mp3',
+  '2001 Mars Odyssey': '/audios /mars/MarsOdysseyPage.mp3',
+  'Spirit & Opportunity': '/audios /mars/SpiritAndOpportunityPage.mp3',
+  'Mars Reconnaissance Orbiter': '/audios /mars/MarsReconnaissanceOrbiterPage.mp3',
+  'Mars Reconnaissance Orbiter (MRO)': '/audios /mars/MarsReconnaissanceOrbiterPage.mp3',
+  'Phoenix Mars Lander': '/audios /mars/PhoenixMarsLanderPage.mp3',
+  'Curiosity Rover': '/audios /mars/CuriosityRoverPage.mp3',
+  'MAVEN': '/audios /mars/MavenPage.mp3',
+  'InSight Lander': '/audios /mars/InSightLandersPage.mp3',
+  'InSight Landers': '/audios /mars/InSightLandersPage.mp3',
+  'Mars 2020 Mission': '/audios /mars/Mars2020Page.mp3',
+  'Mars 2020 / Perseverance & Ingenuity': '/audios /mars/Mars2020Page.mp3',
+  'Sojourner': '/audios /mars/SojournerPage.mp3',
+  'Sojourner Rover': '/audios /mars/SojournerPage.mp3',
+  'Opportunity': '/audios /mars/OpportunityPage.mp3',
+  'Opportunity / MER-B': '/audios /mars/OpportunityPage.mp3',
+  'Opportunity (MER-B)': '/audios /mars/OpportunityPage.mp3',
+  'Perseverance Rover': '/audios /mars/PerseverancePage.mp3',
+
+  // Deep Space
+  'Mariner Program': '/audios /deep_space/MarinerProgramPage.mp3',
+  'Pioneer 10 & 11': '/audios /deep_space/Pioneer10And11Page.mp3',
+  'Voyager 1 & 2': '/audios /deep_space/Voyager1And2Page.mp3',
+  'MESSENGER': '/audios /deep_space/MessengerPage.mp3',
+  'New Horizons': '/audios /deep_space/NewHorizonsPage.mp3',
+  'Juno': '/audios /deep_space/JunoPage.mp3',
+  'OSIRIS-REx / APEX': '/audios /deep_space/OsirisRexApexPage.mp3',
+  'OSIRIS-REx & OSIRIS-APEX': '/audios /deep_space/OsirisRexApexPage.mp3',
+  'TIROS-1': '/audios /deep_space/Tiros1Page.mp3',
+  'Hubble Space Telescope': '/audios /deep_space/HubbleTelescopePage.mp3',
+  'Chandra X-ray Observatory': '/audios /deep_space/ChandraObservatoryPage.mp3',
+  'Chandra X-Ray Observatory': '/audios /deep_space/ChandraObservatoryPage.mp3',
+  'Kepler Space Telescope': '/audios /deep_space/KeplerTelescopePage.mp3',
+  'James Webb Space Telescope': '/audios /deep_space/JamesWebbTelescopePage.mp3',
+  'James Webb Space Telescope (JWST)': '/audios /deep_space/JamesWebbTelescopePage.mp3',
+};
+
 export const MissionDetailLayout: React.FC<MissionDetailProps> = ({
   categoryName,
   categoryHash,
@@ -84,6 +189,7 @@ export const MissionDetailLayout: React.FC<MissionDetailProps> = ({
   imageSrc,
   imageAlt,
   iframeSrc,
+  audioSrc,
   capturedImages,
   galleryImages,
   chapters,
@@ -97,6 +203,22 @@ export const MissionDetailLayout: React.FC<MissionDetailProps> = ({
 }) => {
   const [selectedQuizOption, setSelectedQuizOption] = useState<number | null>(null);
   const [isCapturedModalOpen, setIsCapturedModalOpen] = useState(false);
+  const [currentHash, setCurrentHash] = useState(() => 
+    typeof window !== 'undefined' ? window.location.hash.toLowerCase().trim() : ''
+  );
+
+  useEffect(() => {
+    const handleHash = () => {
+      setCurrentHash(window.location.hash.toLowerCase().trim());
+    };
+    handleHash();
+    window.addEventListener('hashchange', handleHash);
+    return () => window.removeEventListener('hashchange', handleHash);
+  }, []);
+
+  // Resolve audio file path: explicit prop > hash lookup > mission name lookup
+  const resolvedAudioSrc = audioSrc || AUDIO_LOOKUP[currentHash] || MISSION_NAME_AUDIO_LOOKUP[name] || '';
+
   // Ensure 4 images for the popup modal
   const modalImages: string[] = capturedImages && capturedImages.length >= 4
     ? capturedImages.slice(0, 4)
@@ -143,28 +265,38 @@ export const MissionDetailLayout: React.FC<MissionDetailProps> = ({
           </button>
         </div>
 
-        {/* Header Section */}
+        {/* Header Section with Mission Details & Audio Story Player */}
         <div className="mb-10 pb-8 border-b-4 border-white/20">
-          <div className={`inline-flex items-center space-x-2.5 px-5 py-2 bg-black border-2 ${isStillActive ? 'border-emerald-400 shadow-[4px_4px_0px_0px_#10b981]' : 'border-red-500 shadow-[4px_4px_0px_0px_#ef4444]'} rounded-none mb-5`}>
-            <span className={`w-3.5 h-3.5 rounded-none ${isStillActive ? 'bg-emerald-400 animate-pulse' : 'bg-red-500'}`} />
-            <span className={`text-[13px] sm:text-[14px] font-black uppercase tracking-widest ${isStillActive ? 'text-emerald-400' : 'text-red-400'}`}>
-              [ STATUS: {statusBadge} ]
-            </span>
-          </div>
+          <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 xl:gap-12 2xl:gap-14 items-end">
+            {/* Left Header Column: Status, Title, Date & Location */}
+            <div className="xl:col-span-7">
+              <div className={`inline-flex items-center space-x-2.5 px-5 py-2 bg-black border-2 ${isStillActive ? 'border-emerald-400 shadow-[4px_4px_0px_0px_#10b981]' : 'border-red-500 shadow-[4px_4px_0px_0px_#ef4444]'} rounded-none mb-5`}>
+                <span className={`w-3.5 h-3.5 rounded-none ${isStillActive ? 'bg-emerald-400 animate-pulse' : 'bg-red-500'}`} />
+                <span className={`text-[13px] sm:text-[14px] font-black uppercase tracking-widest ${isStillActive ? 'text-emerald-400' : 'text-red-400'}`}>
+                  [ STATUS: {statusBadge} ]
+                </span>
+              </div>
 
-          <h1 className="text-[40px] sm:text-[56px] md:text-[70px] lg:text-[82px] xl:text-[92px] font-black tracking-tighter text-white uppercase mb-6 leading-[0.95] font-mono-retro retro-glow-blue">
-            {name}
-          </h1>
+              <h1 className="text-[40px] sm:text-[56px] md:text-[70px] lg:text-[82px] xl:text-[92px] font-black tracking-tighter text-white uppercase mb-6 leading-[0.95] font-mono-retro retro-glow-blue">
+                {name}
+              </h1>
 
-          <div className="flex flex-wrap items-center gap-4 text-[15px] sm:text-[17px] text-[#a1a1a6]">
-            <span className="flex items-center text-white font-bold uppercase tracking-wide border-2 border-white/50 px-4 py-2 bg-black rounded-none shadow-[3px_3px_0px_0px_#2997ff]">
-              <Calendar className="w-4 h-4 mr-2.5 text-[#2997ff]" />
-              {dateRange}
-            </span>
-            <span className="flex items-center text-white font-bold uppercase tracking-wide border-2 border-white/50 px-4 py-2 bg-black rounded-none shadow-[3px_3px_0px_0px_#2997ff]">
-              <MapPin className="w-4 h-4 mr-2.5 text-[#2997ff]" />
-              {location}
-            </span>
+              <div className="flex flex-wrap items-center gap-4 text-[15px] sm:text-[17px] text-[#a1a1a6]">
+                <span className="flex items-center text-white font-bold uppercase tracking-wide border-2 border-white/50 px-4 py-2 bg-black rounded-none shadow-[3px_3px_0px_0px_#2997ff]">
+                  <Calendar className="w-4 h-4 mr-2.5 text-[#2997ff]" />
+                  {dateRange}
+                </span>
+                <span className="flex items-center text-white font-bold uppercase tracking-wide border-2 border-white/50 px-4 py-2 bg-black rounded-none shadow-[3px_3px_0px_0px_#2997ff]">
+                  <MapPin className="w-4 h-4 mr-2.5 text-[#2997ff]" />
+                  {location}
+                </span>
+              </div>
+            </div>
+
+            {/* Right Header Column: Audio Story Player positioned directly opposite title */}
+            <div className="xl:col-span-5 w-full">
+              <AudioStoryPlayer audioSrc={resolvedAudioSrc} missionName={name} />
+            </div>
           </div>
         </div>
 

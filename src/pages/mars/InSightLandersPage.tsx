@@ -13,6 +13,7 @@ export const InSightLandersPage: React.FC = () => {
       statusBadge="Historical Geophysical Lander"
       isStillActive={false}
       name="InSight Landers"
+      audioSrc="/audios /mars/InSightLandersPage.mp3"
       dateRange="2018 - 2022"
       location="Elysium Planitia"
       imageSrc="https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2a/PIA22743-Mars-InSightLander-ArtistConcept-20181024.jpg/960px-PIA22743-Mars-InSightLander-ArtistConcept-20181024.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail"

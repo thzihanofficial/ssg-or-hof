@@ -13,6 +13,7 @@ export const OsirisRexApexPage: React.FC = () => {
       statusBadge="Still Active"
       isStillActive={true}
       name="OSIRIS-REx & OSIRIS-APEX"
+      audioSrc="/audios /deep_space/OsirisRexApexPage.mp3"
       dateRange="2016 – Present"
       location="Asteroid Bennu & Apophis"
       imageSrc="https://science.nasa.gov/wp-content/uploads/2023/10/230924-osiris-apex-0001.jpg"

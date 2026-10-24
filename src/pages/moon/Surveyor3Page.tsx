@@ -13,6 +13,7 @@ export const Surveyor3Page: React.FC = () => {
       statusBadge="Historical Landmark"
       isStillActive={false}
       name="Surveyor 3"
+      audioSrc="/audios /moon/Surveyor3Page.mp3"
       dateRange="April 1967 - May 1967"
       location="Oceanus Procellarum (Surveyor Crater)"
       imageSrc="https://upload.wikimedia.org/wikipedia/commons/7/77/Surveyor_3_on_Moon.jpg?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=original"

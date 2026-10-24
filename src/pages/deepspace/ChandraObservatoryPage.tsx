@@ -13,6 +13,7 @@ export const ChandraObservatoryPage: React.FC = () => {
       statusBadge="Still Active"
       isStillActive={true}
       name="Chandra X-Ray Observatory"
+      audioSrc="/audios /deep_space/ChandraObservatoryPage.mp3"
       dateRange="1999 – Present"
       location="Elliptical High Earth Orbit"
       imageSrc="https://assets.science.nasa.gov/dynamicimage/assets/science/astro/missions/Chandra20years.webp?w=1536"

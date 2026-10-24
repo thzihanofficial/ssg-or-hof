@@ -13,6 +13,7 @@ export const Mariner7Page: React.FC = () => {
       statusBadge="Historical Flyby"
       isStillActive={false}
       name="Mariner 7"
+      audioSrc="/audios /mars/Mariner7Page.mp3"
       dateRange="March 1969 - August 1969"
       location="South Polar Cap of Mars"
       imageSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyYMmzNwMfGaqPfWivlo6xtXppTrJZ8mgNsILg4Qk08A&s=10"

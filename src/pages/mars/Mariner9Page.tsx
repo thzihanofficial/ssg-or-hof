@@ -13,6 +13,7 @@ export const Mariner9Page: React.FC = () => {
       statusBadge="Historical Orbiter"
       isStillActive={false}
       name="Mariner 9"
+      audioSrc="/audios /mars/Mariner9Page.mp3"
       dateRange="May 1971 - October 1972"
       location="Martian Orbit (85% Mapped)"
       imageSrc="https://thumb.wikimedia.org/wikipedia/commons/thumb/1/11/Mariner09.jpg/960px-Mariner09.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail"

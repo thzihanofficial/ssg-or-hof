@@ -13,6 +13,7 @@ export const Mariner6Page: React.FC = () => {
       statusBadge="Historical Flyby"
       isStillActive={false}
       name="Mariner 6"
+      audioSrc="/audios /mars/Mariner6Page.mp3"
       dateRange="February 1969 - July 1969"
       location="Martian Equatorial Belt"
       imageSrc="https://assets.science.nasa.gov/content/dam/science/psd/solar/2023/07/mariner6_7.gif?w=640&h=480&fit=clip&crop=faces%2Cfocalpoint"

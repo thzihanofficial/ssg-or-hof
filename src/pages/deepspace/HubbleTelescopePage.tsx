@@ -13,6 +13,7 @@ export const HubbleTelescopePage: React.FC = () => {
       statusBadge="Still Active"
       isStillActive={true}
       name="Hubble Space Telescope"
+      audioSrc="/audios /deep_space/HubbleTelescopePage.mp3"
       dateRange="1990 – Present"
       location="Low Earth Orbit (335 miles up)"
       imageSrc="https://upload.wikimedia.org/wikipedia/commons/4/4a/Hubble_2009_close-up_2.jpg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=original"

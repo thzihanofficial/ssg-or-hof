@@ -13,6 +13,7 @@ export const SpiritAndOpportunityPage: React.FC = () => {
       statusBadge="Historical Twin Rovers"
       isStillActive={false}
       name="Spirit & Opportunity"
+      audioSrc="/audios /mars/SpiritAndOpportunityPage.mp3"
       dateRange="2003 - 2018"
       location="Gusev Crater & Meridiani Planum"
       imageSrc="https://upload.wikimedia.org/wikipedia/commons/d/d8/NASA_Mars_Rover.jpg?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=original"

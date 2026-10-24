@@ -13,6 +13,7 @@ export const MessengerPage: React.FC = () => {
       statusBadge="Historical Mercury Orbiter"
       isStillActive={false}
       name="MESSENGER"
+      audioSrc="/audios /deep_space/MessengerPage.mp3"
       dateRange="2004 – 2015"
       location="Mercury Polar Orbit"
       imageSrc="https://upload.wikimedia.org/wikipedia/commons/6/6c/MESSENGER_-_spacecraft_at_mercury_-_atmercury_lg.jpg?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=original"

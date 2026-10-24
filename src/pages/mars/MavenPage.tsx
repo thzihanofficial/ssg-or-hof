@@ -13,6 +13,7 @@ export const MavenPage: React.FC = () => {
       statusBadge="Gone Silent"
       isStillActive={false}
       name="MAVEN"
+      audioSrc="/audios /mars/MavenPage.mp3"
       dateRange="2013 - 2026"
       location="Upper Atmosphere Orbit"
       imageSrc="https://assets.science.nasa.gov/dynamicimage/assets/science/psd/photojournal/pia/pia18/pia18811/PIA18811.tif?w=2048"

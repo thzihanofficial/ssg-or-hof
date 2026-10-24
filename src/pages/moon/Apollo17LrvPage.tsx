@@ -13,6 +13,7 @@ export const Apollo17LrvPage: React.FC = () => {
       statusBadge="Historical Landmark"
       isStillActive={false}
       name="Apollo 17 LRV"
+      audioSrc="/audios /moon/Apollo17LrvPage.mp3"
       dateRange="December 1972"
       location="Taurus-Littrow Valley"
       imageSrc="https://assets.science.nasa.gov/dynamicimage/assets/science/psd/lunar-science/2023/08/eugene_cernan-full-a.jpg?w=3295&h=1764&fit=clip&crop=faces%2Cfocalpoint"

@@ -13,6 +13,7 @@ export const Surveyor1Page: React.FC = () => {
       statusBadge="Historical Landmark"
       isStillActive={false}
       name="Surveyor 1"
+      audioSrc="/audios /moon/Surveyor1Page.mp3"
       dateRange="June 1966 - July 1966"
       location="Oceanus Procellarum (Ocean of Storms)"
       imageSrc="https://www.nasa.gov/wp-content/uploads/2021/05/surveyor_1_2_model.jpg"

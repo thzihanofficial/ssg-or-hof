@@ -13,6 +13,7 @@ export const CuriosityRoverPage: React.FC = () => {
       statusBadge="Still Active"
       isStillActive={true}
       name="Curiosity Rover"
+      audioSrc="/audios /mars/CuriosityRoverPage.mp3"
       dateRange="2011 - Present"
       location="Gale Crater & Mount Sharp"
       imageSrc="https://www.nasa.gov/wp-content/uploads/2026/04/25382-pia24173-1600.jpg"

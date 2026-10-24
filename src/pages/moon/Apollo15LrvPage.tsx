@@ -13,6 +13,7 @@ export const Apollo15LrvPage: React.FC = () => {
       statusBadge="Historical Landmark"
       isStillActive={false}
       name="Apollo 15 LRV"
+      audioSrc="/audios /moon/Apollo15LrvPage.mp3"
       dateRange="July 1971 - August 1971"
       location="Hadley-Apennine Region"
       imageSrc="https://www.nasa.gov/wp-content/uploads/2023/03/as15-88-11901orig.jpg"

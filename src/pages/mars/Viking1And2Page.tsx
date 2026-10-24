@@ -13,6 +13,7 @@ export const Viking1And2Page: React.FC = () => {
       statusBadge="Historical Landmark"
       isStillActive={false}
       name="Viking 1 & 2"
+      audioSrc="/audios /mars/Viking1And2Page.mp3"
       dateRange="1975 - 1982"
       location="Chryse Planitia & Utopia Planitia"
       imageSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBtLUbMS9m1y779K-Eq-BvAVb0Je5ojhbQUX3zNM_vlA&s=10"

@@ -13,6 +13,7 @@ export const MarsReconnaissanceOrbiterPage: React.FC = () => {
       statusBadge="Still Active"
       isStillActive={true}
       name="Mars Reconnaissance Orbiter (MRO)"
+      audioSrc="/audios /mars/MarsReconnaissanceOrbiterPage.mp3"
       dateRange="2005 - Present"
       location="Martian Orbit (HiRISE Camera)"
       imageSrc="https://science.nasa.gov/wp-content/uploads/2017/12/mars-reconnaissance-orbiter-pia04916.jpg"

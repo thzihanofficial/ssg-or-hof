@@ -13,6 +13,7 @@ export const Voyager1And2Page: React.FC = () => {
       statusBadge="Still Active"
       isStillActive={true}
       name="Voyager 1 & 2"
+      audioSrc="/audios /deep_space/Voyager1And2Page.mp3"
       dateRange="1977 – Present"
       location="Interstellar Space (Beyond Heliopause)"
       imageSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUx20_mnEqD9w4LEkGQVL21Aa2sf6hZhOXBFahOICkzQ&s=10"

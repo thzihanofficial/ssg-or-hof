@@ -13,6 +13,7 @@ export const Tiros1Page: React.FC = () => {
       statusBadge="Historical Satellite"
       isStillActive={false}
       name="TIROS-1"
+      audioSrc="/audios /deep_space/Tiros1Page.mp3"
       dateRange="April 1960 - June 1960"
       location="Low Earth Orbit"
       imageSrc="https://www.sri.com/wp-content/uploads/2021/11/TIROS-1-weather-satellite.jpg"

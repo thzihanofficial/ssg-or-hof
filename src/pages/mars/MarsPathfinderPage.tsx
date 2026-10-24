@@ -13,6 +13,7 @@ export const MarsPathfinderPage: React.FC = () => {
       statusBadge="Historical Lander"
       isStillActive={false}
       name="Mars Pathfinder"
+      audioSrc="/audios /mars/MarsPathfinderPage.mp3"
       dateRange="1996 - 1997"
       location="Ares Vallis Floodplain"
       imageSrc="https://assets.thehansindia.com/h-upload/2023/07/03/1362499-nasa.webp"

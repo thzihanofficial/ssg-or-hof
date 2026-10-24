@@ -13,6 +13,7 @@ export const PerseverancePage: React.FC = () => {
       statusBadge="Still Active"
       isStillActive={true}
       name="Perseverance Rover"
+      audioSrc="/audios /mars/PerseverancePage.mp3"
       dateRange="2021 - Present"
       location="Jezero Crater River Delta"
       imageSrc="https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a4/Perseverance-Selfie-at-Rochette-Horizontal-V2.gif/960px-Perseverance-Selfie-at-Rochette-Horizontal-V2.gif?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail"

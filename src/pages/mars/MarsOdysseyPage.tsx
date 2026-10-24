@@ -13,6 +13,7 @@ export const MarsOdysseyPage: React.FC = () => {
       statusBadge="Still Active"
       isStillActive={true}
       name="2001 Mars Odyssey"
+      audioSrc="/audios /mars/MarsOdysseyPage.mp3"
       dateRange="2001 - Present"
       location="Martian Polar Orbit"
       imageSrc="https://images.unsplash.com/photo-1517976487492-5750f3195933?q=80&w=600&auto=format&fit=crop"

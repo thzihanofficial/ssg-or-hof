@@ -13,6 +13,7 @@ export const JunoPage: React.FC = () => {
       statusBadge="Mission Complete"
       isStillActive={false}
       name="Juno"
+      audioSrc="/audios /deep_space/JunoPage.mp3"
       dateRange="2011 – 2025"
       location="Polar Orbit around Jupiter"
       imageSrc="https://assets.science.nasa.gov/dynamicimage/assets/science/cds/general/images/2024/03/pia21770large.jpg?w=1920&h=1280&fit=crop&crop=faces%2Cfocalpoint"

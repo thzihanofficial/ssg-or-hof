@@ -13,6 +13,7 @@ export const MarinerProgramPage: React.FC = () => {
       statusBadge="Historical Program"
       isStillActive={false}
       name="Mariner Program"
+      audioSrc="/audios /deep_space/MarinerProgramPage.mp3"
       dateRange="1962 – 1973"
       location="Inner Solar System (Venus, Mars, Mercury)"
       imageSrc="https://upload.wikimedia.org/wikipedia/commons/0/02/Mariner_5.jpg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=original"

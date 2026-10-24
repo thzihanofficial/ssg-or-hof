@@ -13,6 +13,7 @@ export const Apollo16LrvPage: React.FC = () => {
       statusBadge="Historical Landmark"
       isStillActive={false}
       name="Apollo 16 LRV"
+      audioSrc="/audios /moon/Apollo16LrvPage.mp3"
       dateRange="April 1972"
       location="Descartes Highlands"
       imageSrc="https://upload.wikimedia.org/wikipedia/commons/0/0d/Moon_Buggy_Ap16-KSC-71PC-777.jpg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=original"
