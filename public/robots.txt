@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ssg-or-hof.vercel.app/sitemap.xml
