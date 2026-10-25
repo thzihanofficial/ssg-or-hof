@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronRight, ArrowDown, Compass, Sparkles } from 'lucide-react';
 import { HERO_CONTENT, BRAND } from '../data/landingContent';
+import { LiquidParticleTitle } from './ui/liquid-particle-title';
 
 export const Hero: React.FC = () => {
   const [videoSrc, setVideoSrc] = useState<string>('https://v1.pinimg.com/videos/iht/expMp4/11/09/56/110956ca69b4a3a36bdbee450c531685_720w.mp4');
@@ -77,13 +78,10 @@ export const Hero: React.FC = () => {
       {/* Hero Content Container */}
       <div className="relative z-10 max-w-[980px] w-full mx-auto px-6 text-center my-auto flex flex-col items-center">
         
-        {/* Main Title */}
-        <h1 className="text-[42px] sm:text-[62px] md:text-[78px] lg:text-[86px] font-black tracking-tighter leading-[1.0] text-white uppercase max-w-[940px] mb-8 drop-shadow-[6px_6px_0px_#000000]">
-          Solar System <span className="text-[#2997ff]">Graveyard</span>... <span className="text-[#86868b] font-extrabold text-[0.8em]">or</span>{' '}
-          <span className="inline-block bg-[#0066cc] text-white px-3.5 py-1 border-3 border-white shadow-[5px_5px_0px_0px_#ffffff] -rotate-1 hover:rotate-0 transition-transform">
-            Hall of Fame?
-          </span>
-        </h1>
+        {/* Main Title - Pure Interactive Liquid Particle Model */}
+        <div className="w-full max-w-[960px] h-[190px] min-[440px]:h-[240px] sm:h-[300px] md:h-[360px] lg:h-[390px] mb-8">
+          <LiquidParticleTitle className="w-full h-full" />
+        </div>
 
         {/* Lead Tagline */}
         <p className="text-[18px] sm:text-[22px] md:text-[24px] font-bold leading-[1.3] text-[#e0e0e0] max-w-[780px] mb-8 tracking-tight bg-black/90 border-3 border-white p-5 shadow-[6px_6px_0px_0px_#ffffff]">
