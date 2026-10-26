@@ -142,7 +142,7 @@ html {
   }
 }
 
-/* 20% Scale Reduction for Moon, Mars, Deep Space, and Mission Detail Pages */
+/* 20% Scale Reduction Utility */
 .subpage-scale-20 {
   zoom: 0.8;
 }
@@ -155,4 +155,12 @@ html {
     margin-left: -12.5%;
   }
 }
+
+/* Footer Consistency: Ensure footer always maintains 100% scale and matching layout everywhere across all pages */
+#footer {
+  zoom: 1 !important;
+  transform: none !important;
+  width: 100% !important;
+}
+
 

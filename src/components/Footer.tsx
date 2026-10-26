@@ -62,6 +62,7 @@ export const Footer: React.FC = () => {
         socials={[]}
         backToTop={false}
         height="720px"
+        maxWidth="100%"
       />
     </div>
   );

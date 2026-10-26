@@ -162,17 +162,6 @@ export default function App() {
     return <Home />;
   };
 
-  const isScaledPage = (currentHash: string) => {
-    if (!currentHash) return false;
-    return (
-      currentHash.startsWith('#/moon') || currentHash.startsWith('#moon') ||
-      currentHash.startsWith('#/mars') || currentHash.startsWith('#mars') ||
-      currentHash.startsWith('#/deep-space') || currentHash.startsWith('#deep-space')
-    );
-  };
-
-  const isScaled = isScaledPage(displayedHash);
-
   return (
     <>
       {showIntro && (
@@ -185,7 +174,7 @@ export default function App() {
       )}
       <div 
         key={displayedHash} 
-        className={`${isExiting ? 'page-fade-out' : 'page-fade-in'} ${isScaled ? 'subpage-scale-20' : ''}`}
+        className={isExiting ? 'page-fade-out' : 'page-fade-in'}
       >
         {renderPage(displayedHash)}
       </div>
