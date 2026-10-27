@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import { IntroOverlay } from './components/IntroOverlay';
 import { Home } from './pages/Home';
 import { MoonPage } from './pages/MoonPage';
 import { MarsPage } from './pages/MarsPage';
 import { DeepSpacePage } from './pages/DeepSpacePage';
+import { AboutPage } from './pages/AboutPage';
 
 // Import individual Moon pages
 import { Surveyor1Page } from './pages/moon/Surveyor1Page';
@@ -47,47 +47,12 @@ import { ChandraObservatoryPage } from './pages/deepspace/ChandraObservatoryPage
 import { KeplerTelescopePage } from './pages/deepspace/KeplerTelescopePage';
 import { JamesWebbTelescopePage } from './pages/deepspace/JamesWebbTelescopePage';
 
-const INTRO_STORAGE_KEY = 'ssg_intro_shown';
-
-const hasVisitedBefore = (): boolean => {
-  try {
-    return localStorage.getItem(INTRO_STORAGE_KEY) === 'true';
-  } catch {
-    return false;
-  }
-};
-
-const markAsVisited = (): void => {
-  try {
-    localStorage.setItem(INTRO_STORAGE_KEY, 'true');
-  } catch {
-    // Ignore errors in sandboxed/restricted environments
-  }
-};
-
 export default function App() {
   const [hash, setHash] = useState(() => window.location.hash);
   const [displayedHash, setDisplayedHash] = useState(() => window.location.hash);
   const [isExiting, setIsExiting] = useState(false);
 
-  const [showIntro, setShowIntro] = useState(() => {
-    try {
-      if (new URLSearchParams(window.location.search).get('intro') === 'true') {
-        return true;
-      }
-    } catch {
-      // Ignore URL parsing errors
-    }
-    // Show intro ONLY if user is visiting for the first time on this browser
-    return !hasVisitedBefore();
-  });
-
   useEffect(() => {
-    // Once app is loaded, ensure first-visit flag is marked so refresh or return visits never trigger intro
-    if (!hasVisitedBefore()) {
-      markAsVisited();
-    }
-
     setHash(window.location.hash);
     setDisplayedHash(window.location.hash);
   }, []);
@@ -158,26 +123,17 @@ export default function App() {
     if (currentHash === '#/deep-space/chandraobservatory') return <ChandraObservatoryPage />;
     if (currentHash === '#/deep-space/keplertelescope') return <KeplerTelescopePage />;
     if (currentHash === '#/deep-space/jameswebbtelescope') return <JamesWebbTelescopePage />;
+    if (currentHash === '#/about' || currentHash === '#about') return <AboutPage />;
 
     return <Home />;
   };
 
   return (
-    <>
-      {showIntro && (
-        <IntroOverlay 
-          onComplete={() => {
-            markAsVisited();
-            setShowIntro(false);
-          }} 
-        />
-      )}
-      <div 
-        key={displayedHash} 
-        className={isExiting ? 'page-fade-out' : 'page-fade-in'}
-      >
-        {renderPage(displayedHash)}
-      </div>
-    </>
+    <div 
+      key={displayedHash} 
+      className={isExiting ? 'page-fade-out' : 'page-fade-in'}
+    >
+      {renderPage(displayedHash)}
+    </div>
   );
 }

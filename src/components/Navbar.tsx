@@ -36,6 +36,16 @@ export const Navbar: React.FC<NavbarProps> = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const [currentHash, setCurrentHash] = useState(() => window.location.hash);
+
+  useEffect(() => {
+    const handleHash = () => {
+      setCurrentHash(window.location.hash);
+    };
+    window.addEventListener('hashchange', handleHash);
+    return () => window.removeEventListener('hashchange', handleHash);
+  }, []);
+
   const scrollToSection = (id: string) => {
     setMobileMenuOpen(false);
     if (window.location.hash && window.location.hash.startsWith('#/')) {
@@ -54,16 +64,29 @@ export const Navbar: React.FC<NavbarProps> = () => {
     }
   };
 
+  const navigateToAbout = () => {
+    setMobileMenuOpen(false);
+    if (window.location.hash === '#/about') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      window.location.hash = "#/about";
+    }
+  };
+
   const getActiveTabIdx = () => {
+    if (currentHash === '#/about') return 2;
+    if (currentHash.startsWith('#/moon') || currentHash.startsWith('#/mars') || currentHash.startsWith('#/deep-space')) {
+      return 1;
+    }
     if (activeSection === 'hero') return 0;
     if (activeSection === 'destinations') return 1;
-    return 2; // About / Closing CTA
+    return 0;
   };
 
   const desktopTabs = [
     { label: "Home", onClick: () => scrollToSection('hero') },
     { label: "Explore", onClick: () => scrollToSection('destinations') },
-    { label: "About", onClick: () => scrollToSection('closing-cta') }
+    { label: "About", onClick: () => navigateToAbout() }
   ];
 
   return (
@@ -130,7 +153,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
               <span className="text-[#2997ff] text-[12px]">SYS 02</span>
             </button>
             <button 
-              onClick={() => scrollToSection('closing-cta')}
+              onClick={() => navigateToAbout()}
               className="text-left py-2 text-white hover:text-[#2997ff] border-b-2 border-white/30 flex items-center justify-between"
             >
               <span>ABOUT / MISSION</span>

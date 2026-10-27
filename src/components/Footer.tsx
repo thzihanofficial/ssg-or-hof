@@ -17,7 +17,7 @@ const SPACE_COLUMNS: FooterColumn[] = [
     links: [
       { label: "HOME", href: "#hero" },
       { label: "EXPLORE", href: "#destinations" },
-      { label: "ABOUT", href: "#closing-cta" },
+      { label: "ABOUT", href: "#/about" },
     ],
   },
   {
