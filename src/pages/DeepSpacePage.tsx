@@ -22,63 +22,63 @@ export const DeepSpacePage: React.FC = () => {
       name: "Mariner Program",
       time: "1962–1973",
       desc: "We are 10 siblings who flew past Venus, Mars, and Mercury one after another — we were the first to show humanity what other planets looked like up close.",
-      img: "https://upload.wikimedia.org/wikipedia/commons/0/02/Mariner_5.jpg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=original",
+      img: "https://upload.wikimedia.org/wikipedia/commons/0/02/Mariner_5.jpg",
       hash: "#/deep-space/marinerprogram"
     },
     {
       name: "Pioneer 10 & 11",
       time: "1972–1997",
       desc: "We were the first to cross the asteroid belt and capture images of Jupiter and Saturn. And attached to us is a golden plaque — if extraterrestrial life ever finds us, they will know where we came from.",
-      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkHt2aJCzmgrBsEacizamxXaFUv29hfV17WqLQXs8g7g&s=10",
+      img: "https://www.nasa.gov/wp-content/uploads/2019/08/pioneer_11_saturn_post_encounter.jpg",
       hash: "#/deep-space/pioneer10and11"
     },
     {
       name: "Voyager 1 & 2",
       time: "1977–Present",
       desc: "We are still flying, the farthest human-made objects ever to travel through the Solar System. With us is a golden record containing Earth’s music, languages, and sounds, in case someone ever finds us.",
-      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUx20_mnEqD9w4LEkGQVL21Aa2sf6hZhOXBFahOICkzQ&s=10",
+      img: "https://upload.wikimedia.org/wikipedia/commons/d/d2/Voyager_spacecraft_model.png",
       hash: "#/deep-space/voyager1and2"
     },
     {
       name: "Hubble Space Telescope",
       time: "1990–Present",
       desc: "I have captured images of galaxies in space whose light has traveled for billions of years — as if I were looking back through time.",
-      img: "https://upload.wikimedia.org/wikipedia/commons/4/4a/Hubble_2009_close-up_2.jpg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=original",
+      img: "https://upload.wikimedia.org/wikipedia/commons/4/4a/Hubble_2009_close-up_2.jpg",
       hash: "#/deep-space/hubbletelescope"
     },
     {
       name: "Chandra X-ray Observatory",
       time: "1999–Present",
       desc: "I see what the human eye cannot — the fiery regions around black holes, the remnants of dead stars exploding. The invisible universe is an open book to me.",
-      img: "https://assets.science.nasa.gov/dynamicimage/assets/science/astro/missions/Chandra20years.webp?w=1536",
+      img: "https://assets.science.nasa.gov/dynamicimage/assets/science/astro/missions/Chandra20years.webp",
       hash: "#/deep-space/chandraobservatory"
     },
     {
       name: "New Horizons",
       time: "2006–Present",
       desc: "I flew for nine years just to capture the first close-up images of Pluto — and those images revealed a massive heart-shaped icy feature!",
-      img: "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/32/15-011a-NewHorizons-PlutoFlyby-ArtistConcept-14July2015-20150115.jpg/960px-15-011a-NewHorizons-PlutoFlyby-ArtistConcept-14July2015-20150115.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      img: "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/32/15-011a-NewHorizons-PlutoFlyby-ArtistConcept-14July2015-20150115.jpg/960px-15-011a-NewHorizons-PlutoFlyby-ArtistConcept-14July2015-20150115.jpg",
       hash: "#/deep-space/newhorizons"
     },
     {
       name: "Kepler Space Telescope",
       time: "2009–2018",
       desc: "I have stared at millions of stars, watching for just one thing — when a star’s light dims slightly. That’s how I discovered thousands of new planets beyond our Solar System!",
-      img: "https://images-assets.nasa.gov/image/PIA18904/PIA18904~large.jpg?w=1920&h=1536&fit=clip&crop=faces%2Cfocalpoint",
+      img: "https://images-assets.nasa.gov/image/PIA18904/PIA18904~large.jpg",
       hash: "#/deep-space/keplertelescope"
     },
     {
       name: "Juno",
       time: "2011–2025",
       desc: "I fly over Jupiter’s poles, and below me, I see massive storms — including one larger than Earth that has been raging for hundreds of years!",
-      img: "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/general/images/2024/03/pia21770large.jpg?w=1920&h=1280&fit=crop&crop=faces%2Cfocalpoint",
+      img: "https://assets.science.nasa.gov/dynamicimage/assets/science/cds/general/images/2024/03/pia21770large.jpg",
       hash: "#/deep-space/juno"
     },
     {
       name: "MESSENGER",
       time: "2011–2015",
       desc: "I was the first spacecraft to orbit Mercury — a planet where one side reaches 400°C, while ice hides inside dark craters!",
-      img: "https://upload.wikimedia.org/wikipedia/commons/6/6c/MESSENGER_-_spacecraft_at_mercury_-_atmercury_lg.jpg?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=original",
+      img: "https://upload.wikimedia.org/wikipedia/commons/6/6c/MESSENGER_-_spacecraft_at_mercury_-_atmercury_lg.jpg",
       hash: "#/deep-space/messenger"
     },
     {

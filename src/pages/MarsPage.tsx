@@ -15,35 +15,35 @@ export const MarsPage: React.FC = () => {
       name: "Mariner 6 (1969)",
       time: "July 1969",
       desc: "I was the first to capture close-up images of Mars — and what I saw shocked scientists. Mars was even more mysterious than they had imagined.",
-      img: "https://assets.science.nasa.gov/content/dam/science/psd/solar/2023/07/mariner6_7.gif?w=640&h=480&fit=clip&crop=faces%2Cfocalpoint",
+      img: "https://assets.science.nasa.gov/content/dam/science/psd/solar/2023/07/mariner6_7.gif",
       hash: "#/mars/mariner6"
     },
     {
       name: "Mariner 7 (1969)",
       time: "August 1969",
       desc: "Just one month after my twin, Mariner 6, I also flew past Mars — and I discovered the ice caps at Mars poles!",
-      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyYMmzNwMfGaqPfWivlo6xtXppTrJZ8mgNsILg4Qk08A&s=10",
+      img: "https://www.nasa.gov/wp-content/uploads/2019/07/mar-6n16-new.gif",
       hash: "#/mars/mariner7"
     },
     {
       name: "Mariner 9 (1971)",
       time: "1971 - 1972",
       desc: "I was the first human-made spacecraft to orbit another planet. But when I arrived, I found Mars completely covered by a massive dust storm — I had to wait.",
-      img: "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/11/Mariner09.jpg/960px-Mariner09.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      img: "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/11/Mariner09.jpg/960px-Mariner09.jpg",
       hash: "#/mars/mariner9"
     },
     {
       name: "Viking 1 & 2 (1975)",
       time: "1975 - 1982",
       desc: "We tested the soil of Mars to answer one question — is there life there? The answer still remains a subject of debate among scientists today.",
-      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBtLUbMS9m1y779K-Eq-BvAVb0Je5ojhbQUX3zNM_vlA&s=10",
+      img: "https://upload.wikimedia.org/wikipedia/commons/1/10/Mars_Viking_12a002.png",
       hash: "#/mars/viking1and2"
     },
     {
       name: "Mars Global Surveyor (1996)",
       time: "1996 - 2006",
       desc: "I spent 10 years orbiting Mars, studying every mountain and every dust storm in detail — I mapped an entire planet all by myself.",
-      img: "https://assets.science.nasa.gov/dynamicimage/assets/science/psd/solar/2023/07/mgs_768.jpg?w=768&h=650&fit=crop&crop=faces%2Cfocalpoint",
+      img: "https://assets.science.nasa.gov/dynamicimage/assets/science/psd/solar/2023/07/mgs_768.jpg",
       hash: "#/mars/marsglobalsurveyor"
     },
     {
@@ -57,28 +57,28 @@ export const MarsPage: React.FC = () => {
       name: "Sojourner (1997)",
       time: "July 1997 - Sept 1997",
       desc: "I had to be driven from Earth, but every command took about 11 minutes to reach me — imagine if the steering wheel responded 11 minutes after you turned it!",
-      img: "https://upload.wikimedia.org/wikipedia/commons/3/3a/Sojourner_on_Mars_PIA01122.jpg?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=original",
+      img: "https://upload.wikimedia.org/wikipedia/commons/3/3a/Sojourner_on_Mars_PIA01122.jpg",
       hash: "#/mars/sojourner"
     },
     {
       name: "2001 Mars Odyssey (2001)",
       time: "2001 - Present",
       desc: "I have been orbiting Mars for more than 20 years — of all the spacecraft at Mars, I have been operating the longest, and I still haven't stopped.",
-      img: "https://media.gettyimages.com/id/900381/photo/in-this-artists-conception-nasas-2001-mars-odyssey-spacecraft-is-shown-in-orbit-around-mars.jpg?s=612x612&w=0&k=20&c=pEmx_K0GnUUaAHMJHmUIFTENxHxDup4OJlvHRJ2NTUQ=",
+      img: "https://media.gettyimages.com/id/900381/photo/in-this-artists-conception-nasas-2001-mars-odyssey-spacecraft-is-shown-in-orbit-around-mars.jpg",
       hash: "#/mars/marsodyssey"
     },
     {
       name: "Spirit & Opportunity (MER - 2003)",
       time: "2003 - 2018",
       desc: "We landed in two different places on Mars, but together we proved that this Red Planet once had water.",
-      img: "https://upload.wikimedia.org/wikipedia/commons/d/d8/NASA_Mars_Rover.jpg?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=original",
+      img: "https://upload.wikimedia.org/wikipedia/commons/d/d8/NASA_Mars_Rover.jpg",
       hash: "#/mars/spiritandopportunity"
     },
     {
       name: "Opportunity / MER-B (2004–2018)",
       time: "2004 - 2018",
       desc: "I was sent to work for just 90 days. I survived for 15 years and traveled farther across Mars than any human could have.",
-      img: "https://assets.science.nasa.gov/dynamicimage/assets/science/psd/solar/2023/07/1057_rover2_768.jpg?w=768&h=576&fit=clip&crop=faces%2Cfocalpoint",
+      img: "https://assets.science.nasa.gov/dynamicimage/assets/science/psd/solar/2023/07/1057_rover2_768.jpg",
       hash: "#/mars/opportunity"
     },
     {
@@ -92,7 +92,7 @@ export const MarsPage: React.FC = () => {
       name: "Phoenix Mars Lander (2007)",
       time: "2007 - 2008",
       desc: "I proved that there really is ice hidden beneath the Martian soil — I dug it out with my own robotic arm.",
-      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvHkX_W1m7F2Pv_S83CPWr9-9uoYkAFQwTsBW9CuwcZA&s=10",
+      img: "https://science.nasa.gov/wp-content/uploads/2024/03/phoenix-icy-trenches.jpg",
       hash: "#/mars/phoenixmarslander"
     },
     {
@@ -106,28 +106,28 @@ export const MarsPage: React.FC = () => {
       name: "MAVEN (2013)",
       time: "2013 - 2026",
       desc: "Mars once had a thick atmosphere, rivers, and lakes — so where did it all go? I am searching for the answer to the mystery of how the solar wind gradually stripped away Mars's atmosphere.",
-      img: "https://assets.science.nasa.gov/dynamicimage/assets/science/psd/photojournal/pia/pia18/pia18811/PIA18811.tif?w=2048",
+      img: "https://assets.science.nasa.gov/dynamicimage/assets/science/psd/photojournal/pia/pia18/pia18811/PIA18811.tif",
       hash: "#/mars/maven"
     },
     {
       name: "InSight Landers (2018)",
       time: "2018 - 2022",
       desc: "I listened to the heart of Mars, hearing hundreds of “marsquakes” — the first time anyone had ever heard the sounds from inside a planet.",
-      img: "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2a/PIA22743-Mars-InSightLander-ArtistConcept-20181024.jpg/960px-PIA22743-Mars-InSightLander-ArtistConcept-20181024.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      img: "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2a/PIA22743-Mars-InSightLander-ArtistConcept-20181024.jpg/960px-PIA22743-Mars-InSightLander-ArtistConcept-20181024.jpg",
       hash: "#/mars/insightlanders"
     },
     {
       name: "Mars 2020 / Perseverance & Ingenuity (2020)",
       time: "2020 - Present",
       desc: "I am a tiny helicopter weighing just 1.8 kilograms. But I was the first aircraft to fly on another planet — in Mars's thin atmosphere, where flying was almost impossible.",
-      img: "https://upload.wikimedia.org/wikipedia/commons/5/58/Mars_helicopter_on_sol_46.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail_unscaled",
+      img: "https://upload.wikimedia.org/wikipedia/commons/5/58/Mars_helicopter_on_sol_46.png",
       hash: "#/mars/mars2020"
     },
     {
       name: "Perseverance (2021)",
       time: "2021 - Present",
       desc: "I am drilling into rocks, collecting samples, and leaving them on the Martian surface — one day, another spacecraft may come and bring them back to Earth.",
-      img: "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a4/Perseverance-Selfie-at-Rochette-Horizontal-V2.gif/960px-Perseverance-Selfie-at-Rochette-Horizontal-V2.gif?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+      img: "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a4/Perseverance-Selfie-at-Rochette-Horizontal-V2.gif/960px-Perseverance-Selfie-at-Rochette-Horizontal-V2.gif",
       hash: "#/mars/perseverance"
     }
   ];

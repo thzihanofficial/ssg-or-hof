@@ -56,13 +56,39 @@ export default defineConfig(() => {
           navigateFallback: '/index.html',
           runtimeCaching: [
             {
-              urlPattern: /^https:\/\/(www\.nasa\.gov|assets\.science\.nasa\.gov|upload\.wikimedia\.org|thumb\.wikimedia\.org|mars\.nasa\.gov|images\.nasa\.gov|images-assets\.nasa\.gov|www\.sri\.com)\/.*\.(?:png|jpg|jpeg|svg|gif|webp)/i,
+              urlPattern: ({ request, url }) => {
+                return (
+                  request.destination === 'image' ||
+                  /\.(?:png|jpg|jpeg|svg|gif|webp|avif)(?:\?.*)?$/i.test(url.href) ||
+                  /images-assets\.nasa\.gov|assets\.science\.nasa\.gov|upload\.wikimedia\.org|thumb\.wikimedia\.org|mars\.nasa\.gov|science\.nasa\.gov|www\.nasa\.gov|www\.sri\.com|media\.gettyimages\.com|assets\.thehansindia\.com|encrypted-tbn0\.gstatic\.com|images\.unsplash\.com/i.test(url.hostname)
+                );
+              },
               handler: 'CacheFirst',
               options: {
-                cacheName: 'nasa-mission-images-cache',
+                cacheName: 'mission-images-vault-v2',
                 expiration: {
-                  maxEntries: 500,
+                  maxEntries: 800,
                   maxAgeSeconds: 365 * 24 * 60 * 60, // 1 year
+                },
+                cacheableResponse: {
+                  statuses: [0, 200],
+                },
+              },
+            },
+            {
+              urlPattern: ({ request, url }) => {
+                return (
+                  request.destination === 'video' ||
+                  /\.(?:mp4|webm|ogv)(?:\?.*)?$/i.test(url.href) ||
+                  /v1\.pinimg\.com/i.test(url.hostname)
+                );
+              },
+              handler: 'CacheFirst',
+              options: {
+                cacheName: 'hero-video-vault-v1',
+                expiration: {
+                  maxEntries: 10,
+                  maxAgeSeconds: 365 * 24 * 60 * 60,
                 },
                 cacheableResponse: {
                   statuses: [0, 200],

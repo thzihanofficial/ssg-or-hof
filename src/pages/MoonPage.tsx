@@ -23,14 +23,14 @@ export const MoonPage: React.FC = () => {
       name: "Surveyor 3",
       time: "April 1967 - May 1967",
       desc: "I was digging the soil alone on the moon; there was no one with me. Two and a half years later, two astronauts suddenly walked up—to see me!",
-      img: "https://assets.science.nasa.gov/dynamicimage/assets/science/psd/solar/2023/07/as12-48-7134_1280.jpg?w=1280&h=1280&fit=crop&crop=faces%2Cfocalpoint",
+      img: "https://assets.science.nasa.gov/dynamicimage/assets/science/psd/solar/2023/07/as12-48-7134_1280.jpg",
       hash: "#/moon/surveyor3"
     },
     {
       name: "Surveyor 5, 6, 7",
       time: "Sept 1967 - Jan 1968",
       desc: "We are three siblings. We were able to tell what elements were present in the Moon’s soil without even touching it.",
-      img: "https://upload.wikimedia.org/wikipedia/commons/2/2a/Surveyor_NASA_lunar_lander.jpg?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=original",
+      img: "https://upload.wikimedia.org/wikipedia/commons/2/2a/Surveyor_NASA_lunar_lander.jpg",
       hash: "#/moon/surveyor567",
       fitImage: true
     },
@@ -46,14 +46,14 @@ export const MoonPage: React.FC = () => {
       name: "Apollo 16 LRV (1972)",
       time: "April 1972 - April 1972",
       desc: "My brother, the Apollo 15 LRV, explored the Moon, but I wanted to know — how fast could I go? The answer surprised all of NASA.",
-      img: "https://upload.wikimedia.org/wikipedia/commons/0/0d/Moon_Buggy_Ap16-KSC-71PC-777.jpg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=original",
+      img: "https://upload.wikimedia.org/wikipedia/commons/0/0d/Moon_Buggy_Ap16-KSC-71PC-777.jpg",
       hash: "#/moon/apollo16lrv"
     },
     {
       name: "Apollo 17 LRV (1972)",
       time: "December 1972",
       desc: "I am the vehicle that carried the last humans to explore the Moon. More than 50 years have passed since then, and no one has returned.",
-      img: "https://assets.science.nasa.gov/dynamicimage/assets/science/psd/lunar-science/2023/08/eugene_cernan-full-a.jpg?w=3295&h=1764&fit=clip&crop=faces%2Cfocalpoint",
+      img: "https://assets.science.nasa.gov/dynamicimage/assets/science/psd/lunar-science/2023/08/eugene_cernan-full-a.jpg",
       hash: "#/moon/apollo17lrv"
     },
     {

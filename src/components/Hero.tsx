@@ -1,42 +1,70 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronRight, ArrowDown, Compass, Sparkles } from 'lucide-react';
+import { ChevronRight, ArrowDown } from 'lucide-react';
 import { HERO_CONTENT, BRAND } from '../data/landingContent';
 import { LiquidParticleTitle } from './ui/liquid-particle-title';
 import { ScrollReveal } from './ui/ScrollReveal';
+import { CosmicBackground } from './ui/CosmicBackground';
 
 export const Hero: React.FC = () => {
   const [videoSrc, setVideoSrc] = useState<string>('https://v1.pinimg.com/videos/iht/expMp4/11/09/56/110956ca69b4a3a36bdbee450c531685_720w.mp4');
+  const [videoLoaded, setVideoLoaded] = useState<boolean>(false);
+  const [videoError, setVideoError] = useState<boolean>(false);
 
   useEffect(() => {
     const videoUrl = 'https://v1.pinimg.com/videos/iht/expMp4/11/09/56/110956ca69b4a3a36bdbee450c531685_720w.mp4';
     let localUrl = '';
 
+    // Check online status immediately
+    if (typeof navigator !== 'undefined' && !navigator.onLine) {
+      // If offline, check if video exists in cache
+      if ('caches' in window) {
+        caches.open('hero-video-vault-v1').then(async (cache) => {
+          const match = await cache.match(videoUrl);
+          if (match) {
+            const blob = await match.blob();
+            localUrl = URL.createObjectURL(blob);
+            setVideoSrc(localUrl);
+          } else {
+            setVideoError(true);
+          }
+        }).catch(() => {
+          setVideoError(true);
+        });
+      } else {
+        setVideoError(true);
+      }
+      return;
+    }
+
     const loadAndCacheVideo = async () => {
       try {
         if ('caches' in window) {
-          const cacheName = 'nothing-impossible-video-cache-v1';
+          const cacheName = 'hero-video-vault-v1';
           const cache = await caches.open(cacheName);
           
-          // Look for cached request
           let cachedResponse = await cache.match(videoUrl);
-          
-          if (!cachedResponse) {
-            // Fetch first and cache the response
-            const networkResponse = await fetch(videoUrl);
-            if (networkResponse.ok) {
-              await cache.put(videoUrl, networkResponse.clone());
-              cachedResponse = networkResponse;
-            }
-          }
-          
           if (cachedResponse) {
             const blob = await cachedResponse.blob();
             localUrl = URL.createObjectURL(blob);
             setVideoSrc(localUrl);
+            return;
+          }
+
+          // Fetch with no-cors / cors fallback
+          try {
+            const networkResponse = await fetch(videoUrl, { mode: 'cors' });
+            if (networkResponse.ok) {
+              await cache.put(videoUrl, networkResponse.clone());
+              const blob = await networkResponse.blob();
+              localUrl = URL.createObjectURL(blob);
+              setVideoSrc(localUrl);
+            }
+          } catch {
+            // direct streaming through <video>
           }
         }
       } catch (err) {
-        console.warn('Unable to retrieve from local cache, playing directly via fallback network stream:', err);
+        console.warn('Direct stream fallback:', err);
       }
     };
 
@@ -59,23 +87,38 @@ export const Hero: React.FC = () => {
   return (
     <section 
       id="hero" 
-      className="relative min-h-[92vh] pt-[64px] sm:pt-[76px] pb-[80px] bg-[#121214] text-white flex flex-col justify-between overflow-hidden border-b-4 border-white"
+      className="relative min-h-[92vh] pt-[64px] sm:pt-[76px] pb-[80px] bg-[#07080f] text-white flex flex-col justify-between overflow-hidden border-b-4 border-white"
     >
-      {/* Background Video Loop */}
-      <div className="absolute inset-0 pointer-events-none select-none overflow-hidden" aria-hidden="true">
-        <video
-          className="w-full h-full object-cover opacity-50 animate-fade-in"
-          src={videoSrc}
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
-          style={{ willChange: 'transform', transform: 'translateZ(0)' }}
-        />
-        <div className="absolute inset-0 bg-black/40 mix-blend-multiply" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-[#121214]" />
-      </div>
+      {/* Dynamic Cosmic Space Background — Always visible even completely offline */}
+      <CosmicBackground />
+
+      {/* Video Loop Overlay — Blends seamlessly with cosmic nebula when available */}
+      {!videoError && (
+        <div className="absolute inset-0 pointer-events-none select-none overflow-hidden" aria-hidden="true">
+          <video
+            className={`w-full h-full object-cover transition-opacity duration-1000 ${
+              videoLoaded ? 'opacity-55' : 'opacity-0'
+            }`}
+            src={videoSrc}
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="auto"
+            onCanPlay={() => setVideoLoaded(true)}
+            onError={() => {
+              setVideoError(true);
+              setVideoLoaded(false);
+            }}
+            style={{ willChange: 'transform', transform: 'translateZ(0)' }}
+          />
+          <div className="absolute inset-0 bg-black/30 mix-blend-multiply" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-[#07080f]" />
+        </div>
+      )}
+
+      {/* Subtle CRT Scanline and ambient vignette */}
+      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,0,0,0.45)_100%)] z-[1]" />
 
       {/* Hero Content Container */}
       <div className="relative z-10 max-w-[980px] w-full mx-auto px-6 text-center my-auto flex flex-col items-center">

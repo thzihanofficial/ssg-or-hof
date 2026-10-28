@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { SafeMissionImage } from "./SafeMissionImage"
 
 /*
  * Polaroid Line Carousel — instant photos pegged to a sagging string. Drag the
@@ -525,27 +526,19 @@ export const PolaroidLineCarousel: React.FC<PolaroidLineCarouselProps> = ({
                   className="relative mt-2.5 w-full bg-black overflow-hidden border border-zinc-800 flex items-center justify-center"
                   style={{ height: `${photoHeight}px` }}
                 >
-                  {slide.image ? (
-                    <img
-                      src={slide.image}
-                      alt={slide.alt || slide.title || `Polaroid print ${i + 1}`}
-                      className={`w-full h-full ${
-                        slide.fitImage ? "object-contain p-3 bg-black" : "object-cover"
-                      } transition-transform duration-500 group-hover/card:scale-105`}
-                      loading="lazy"
-                      referrerPolicy="no-referrer"
-                    />
-                  ) : (
-                    <ProceduralLandscape
-                      palette={slide.palette}
-                      seed={slide.seed ?? i * 13 + 7}
-                      width={effectiveCardWidth - 28}
-                      height={photoHeight}
-                    />
-                  )}
+                  <SafeMissionImage
+                    src={slide.image}
+                    alt={slide.alt || slide.title || `Polaroid print ${i + 1}`}
+                    className="w-full h-full transition-transform duration-500 group-hover/card:scale-105"
+                    fitImage={slide.fitImage}
+                    missionTitle={slide.title || "MISSION RECORD"}
+                    missionTime={slide.time}
+                    palette={slide.palette}
+                    seed={slide.seed ?? i * 13 + 7}
+                  />
 
                   {/* Archival Stamp */}
-                  <div className="absolute top-2.5 right-2.5 px-2.5 py-1 bg-black/90 border border-white/40 text-[10px] font-mono font-black uppercase text-white tracking-wider shadow-sm">
+                  <div className="absolute top-2.5 right-2.5 px-2.5 py-1 bg-black/90 border border-white/40 text-[10px] font-mono font-black uppercase text-white tracking-wider shadow-sm z-10">
                     ARCHIVE {pad2(i + 1)}
                   </div>
                 </div>

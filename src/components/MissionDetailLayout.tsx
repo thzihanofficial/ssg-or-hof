@@ -10,6 +10,7 @@ import {
 
 import { AudioStoryPlayer } from './AudioStoryPlayer';
 import { ScrollReveal } from './ui/ScrollReveal';
+import { SafeMissionImage } from './ui/SafeMissionImage';
 
 export interface MissionChapter {
   title: string;
@@ -435,11 +436,11 @@ export const MissionDetailLayout: React.FC<MissionDetailProps> = ({
                       allowFullScreen
                     />
                   ) : (
-                    <img
+                    <SafeMissionImage
                       src={imageSrc}
                       alt={imageAlt || name}
                       className="w-full h-[460px] sm:h-[560px] md:h-[640px] lg:h-[720px] xl:h-[760px] 2xl:h-[800px] block object-cover object-center rounded-none"
-                      referrerPolicy="no-referrer"
+                      missionTitle={name}
                     />
                   )}
                 </div>
@@ -611,11 +612,11 @@ export const MissionDetailLayout: React.FC<MissionDetailProps> = ({
                         className="relative aspect-[16/10] bg-black overflow-hidden border-b-2 border-white block cursor-pointer"
                         title="Open original high-resolution frame"
                       >
-                        <img
+                        <SafeMissionImage
                           src={imgUrl}
                           alt={`${name} Captured frame ${index + 1}`}
                           className="w-full h-full object-cover"
-                          referrerPolicy="no-referrer"
+                          missionTitle={`${name} Frame 0${index + 1}`}
                         />
                         <div className="absolute top-3 left-3 bg-black/85 border border-white/60 px-2.5 py-1 text-[10px] sm:text-[11px] font-black text-white uppercase tracking-wider shadow-[2px_2px_0px_0px_#0066cc]">
                           FRAME 0{index + 1}

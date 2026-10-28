@@ -112,7 +112,7 @@ export const startBackgroundCacheWarmup = async (concurrency = 4): Promise<void>
     const processItem = async (url: string) => {
       try {
         // Check if already in cache
-        const existing = await cache.match(url);
+        const existing = await cache.match(url, { ignoreSearch: true });
         if (existing) {
           synced++;
           globalState.syncedCount = synced;
@@ -146,6 +146,20 @@ export const startBackgroundCacheWarmup = async (concurrency = 4): Promise<void>
         notifyListeners();
       }
     };
+
+    // Also warm up hero background video into hero-video-vault-v1
+    const videoUrl = 'https://v1.pinimg.com/videos/iht/expMp4/11/09/56/110956ca69b4a3a36bdbee450c531685_720w.mp4';
+    try {
+      const vidCache = await caches.open('hero-video-vault-v1');
+      const hasVid = await vidCache.match(videoUrl);
+      if (!hasVid) {
+        fetch(videoUrl, { mode: 'cors' })
+          .then((res) => {
+            if (res.ok) vidCache.put(videoUrl, res);
+          })
+          .catch(() => {});
+      }
+    } catch {}
 
     // Process in batches with concurrency limit
     const running: Promise<void>[] = [];
