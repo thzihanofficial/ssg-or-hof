@@ -1,52 +1,66 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-interface ScrollRevealProps {
+export interface ScrollRevealProps {
   children: React.ReactNode;
   className?: string;
   delay?: number; // Delay in milliseconds
   duration?: number; // Duration in milliseconds
   direction?: 'up' | 'down' | 'left' | 'right' | 'none';
-  distance?: string; // Translate distance e.g. "40px"
+  distance?: string; // Translate distance e.g. "36px"
+  threshold?: number;
+  once?: boolean;
 }
 
 export const ScrollReveal: React.FC<ScrollRevealProps> = ({
   children,
   className = '',
   delay = 0,
-  duration = 800,
+  duration = 750,
   direction = 'up',
-  distance = '40px',
+  distance = '36px',
+  threshold = 0.08,
+  once = true,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const domRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const el = domRef.current;
+    if (!el) return;
+
+    // Fast check: If element is already in the viewport on initial render, reveal immediately
+    const rect = el.getBoundingClientRect();
+    const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+    if (rect.top <= viewportHeight * 0.95 && rect.bottom >= 0) {
+      setIsVisible(true);
+      if (once) return;
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setIsVisible(true);
-            observer.unobserve(entry.target);
+            if (once) {
+              observer.unobserve(entry.target);
+            }
+          } else if (!once) {
+            setIsVisible(false);
           }
         });
       },
       {
-        threshold: 0.1, // Trigger when 10% of element is in viewport
-        rootMargin: '0px 0px -60px 0px', // Trigger slightly before crossing the viewport
+        threshold,
+        rootMargin: '0px 0px -40px 0px',
       }
     );
 
-    const currentRef = domRef.current;
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
+    observer.observe(el);
 
     return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
+      observer.disconnect();
     };
-  }, []);
+  }, [threshold, once]);
 
   const getTransform = () => {
     if (!isVisible) {
@@ -54,8 +68,9 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
       if (direction === 'down') return `translateY(-${distance})`;
       if (direction === 'left') return `translateX(${distance})`;
       if (direction === 'right') return `translateX(-${distance})`;
+      if (direction === 'none') return 'scale(0.97)';
     }
-    return 'translate(0)';
+    return 'translate(0) scale(1)';
   };
 
   return (
@@ -65,8 +80,8 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
       style={{
         opacity: isVisible ? 1 : 0,
         transform: getTransform(),
-        transition: `opacity ${duration}ms cubic-bezier(0.215, 0.61, 0.355, 1) ${delay}ms, transform ${duration}ms cubic-bezier(0.215, 0.61, 0.355, 1) ${delay}ms`,
-        willChange: 'opacity, transform',
+        transition: `opacity ${duration}ms cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms, transform ${duration}ms cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms`,
+        willChange: isVisible ? 'auto' : 'opacity, transform',
       }}
     >
       {children}

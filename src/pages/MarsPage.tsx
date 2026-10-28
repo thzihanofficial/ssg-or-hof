@@ -3,6 +3,7 @@ import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
 import { ArrowLeft } from 'lucide-react';
 import { PolaroidLineCarousel, Slide } from '../components/ui/polaroid-line-carousel';
+import { ScrollReveal } from '../components/ui/ScrollReveal';
 
 export const MarsPage: React.FC = () => {
   useEffect(() => {
@@ -164,63 +165,67 @@ export const MarsPage: React.FC = () => {
           </div>
 
           {/* Header Block - Wide & Professional */}
-          <div className="w-full border-l-6 border-[#ff6b4a] bg-black border-2 border-white p-6 sm:p-8 md:p-10 shadow-[8px_8px_0px_0px_#ffffff] flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
-            <div>
-              <div className="flex items-center gap-2 mb-2">
-                <span className="w-3 h-3 bg-[#ff6b4a] animate-pulse" />
-                <span className="text-[13px] sm:text-[15px] font-black text-[#ff6b4a] uppercase tracking-widest">
-                  MARTIAN ARCHIVE // CATALOG 02
+          <ScrollReveal direction="up" distance="25px" duration={700}>
+            <div className="w-full border-l-6 border-[#ff6b4a] bg-black border-2 border-white p-6 sm:p-8 md:p-10 shadow-[8px_8px_0px_0px_#ffffff] flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="w-3 h-3 bg-[#ff6b4a] animate-pulse" />
+                  <span className="text-[13px] sm:text-[15px] font-black text-[#ff6b4a] uppercase tracking-widest">
+                    MARTIAN ARCHIVE // CATALOG 02
+                  </span>
+                </div>
+                <h1 className="text-[44px] sm:text-[60px] md:text-[76px] lg:text-[88px] font-black tracking-tighter text-white uppercase leading-none">
+                  Mars Exploration
+                </h1>
+              </div>
+              <div className="flex flex-wrap items-center gap-3 text-[13px] sm:text-[14px] font-bold uppercase tracking-wider text-white">
+                <span className="px-3.5 py-1.5 bg-zinc-900 border border-white/40 shadow-[2px_2px_0px_0px_#ff6b4a]">
+                  17 EXPEDITION MISSIONS
+                </span>
+                <span className="px-3.5 py-1.5 bg-zinc-900 border border-white/40 shadow-[2px_2px_0px_0px_#ff6b4a]">
+                  1969 - PRESENT
+                </span>
+                <span className="px-3.5 py-1.5 bg-[#ff6b4a]/20 border border-[#ff6b4a] text-[#ff6b4a]">
+                  ROVERS, LANDERS & ORBITERS
                 </span>
               </div>
-              <h1 className="text-[44px] sm:text-[60px] md:text-[76px] lg:text-[88px] font-black tracking-tighter text-white uppercase leading-none">
-                Mars Exploration
-              </h1>
             </div>
-            <div className="flex flex-wrap items-center gap-3 text-[13px] sm:text-[14px] font-bold uppercase tracking-wider text-white">
-              <span className="px-3.5 py-1.5 bg-zinc-900 border border-white/40 shadow-[2px_2px_0px_0px_#ff6b4a]">
-                17 EXPEDITION MISSIONS
-              </span>
-              <span className="px-3.5 py-1.5 bg-zinc-900 border border-white/40 shadow-[2px_2px_0px_0px_#ff6b4a]">
-                1969 - PRESENT
-              </span>
-              <span className="px-3.5 py-1.5 bg-[#ff6b4a]/20 border border-[#ff6b4a] text-[#ff6b4a]">
-                ROVERS, LANDERS & ORBITERS
-              </span>
-            </div>
-          </div>
+          </ScrollReveal>
         </div>
 
         {/* POLAROID LINE CAROUSEL (Full Width Screen Stage, No Border, Increased Height) */}
-        <div className="w-full flex-1 relative overflow-hidden bg-gradient-to-b from-black/80 via-[#09090c] to-black py-4">
-          {/* Top Bar Label */}
-          <div className="w-full max-w-[1780px] 2xl:max-w-[1920px] mx-auto px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 flex flex-col sm:flex-row items-start sm:items-center justify-between pb-3 mb-2 gap-3">
-            <div className="flex items-center gap-2.5">
-              <span className="w-3 h-3 bg-[#ff6b4a] shadow-[0_0_8px_#ff6b4a]" />
-              <h2 className="text-[18px] sm:text-[22px] font-black uppercase text-white tracking-wide">
-                MARTIAN EXPEDITION POLAROIDS // WIRELINE ARCHIVE
-              </h2>
+        <ScrollReveal direction="up" distance="30px" delay={100} duration={800} className="w-full flex-1 flex flex-col">
+          <div className="w-full flex-1 relative overflow-hidden bg-gradient-to-b from-black/80 via-[#09090c] to-black py-4">
+            {/* Top Bar Label */}
+            <div className="w-full max-w-[1780px] 2xl:max-w-[1920px] mx-auto px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 flex flex-col sm:flex-row items-start sm:items-center justify-between pb-3 mb-2 gap-3">
+              <div className="flex items-center gap-2.5">
+                <span className="w-3 h-3 bg-[#ff6b4a] shadow-[0_0_8px_#ff6b4a]" />
+                <h2 className="text-[18px] sm:text-[22px] font-black uppercase text-white tracking-wide">
+                  MARTIAN EXPEDITION POLAROIDS // WIRELINE ARCHIVE
+                </h2>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="text-[11px] sm:text-[12px] font-bold uppercase text-[#ff6b4a] bg-black/80 border border-[#ff6b4a]/60 px-3.5 py-1.5 shadow-[2px_2px_0px_0px_#ff6b4a]">
+                  HORIZONTAL SCROLL / DRAG TO BROWSE • VERTICAL SCROLL MOVES PAGE
+                </span>
+              </div>
             </div>
-            <div className="flex items-center gap-3">
-              <span className="text-[11px] sm:text-[12px] font-bold uppercase text-[#ff6b4a] bg-black/80 border border-[#ff6b4a]/60 px-3.5 py-1.5 shadow-[2px_2px_0px_0px_#ff6b4a]">
-                HORIZONTAL SCROLL / DRAG TO BROWSE • VERTICAL SCROLL MOVES PAGE
-              </span>
-            </div>
-          </div>
 
-          {/* Polaroid Line Carousel Component */}
-          <PolaroidLineCarousel
-            slides={marsSlides}
-            height="780px"
-            cardWidth={440}
-            sag={55}
-            swing={1.05}
-            autoplay={0}
-            string="#ff6b4a"
-            accentColor="#ff6b4a"
-            background="transparent"
-            ariaLabel="Martian Expedition Mission Polaroid Prints"
-          />
-        </div>
+            {/* Polaroid Line Carousel Component */}
+            <PolaroidLineCarousel
+              slides={marsSlides}
+              height="780px"
+              cardWidth={440}
+              sag={55}
+              swing={1.05}
+              autoplay={0}
+              string="#ff6b4a"
+              accentColor="#ff6b4a"
+              background="transparent"
+              ariaLabel="Martian Expedition Mission Polaroid Prints"
+            />
+          </div>
+        </ScrollReveal>
       </main>
 
       {/* Footer */}

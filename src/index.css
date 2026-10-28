@@ -11,7 +11,12 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: smooth !important;
+  scroll-padding-top: 80px;
+}
+
+:root {
+  scroll-behavior: smooth !important;
 }
 
 @layer base {
