@@ -70,7 +70,6 @@ export const Hero: React.FC = () => {
           muted
           playsInline
           preload="auto"
-          style={{ willChange: 'transform', transform: 'translateZ(0)' }}
         />
         <div className="absolute inset-0 bg-black/40 mix-blend-multiply" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-[#121214]" />
