@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Home } from './pages/Home';
+import { OfflineStatusHUD } from './components/OfflineStatusHUD';
 import { MoonPage } from './pages/MoonPage';
 import { MarsPage } from './pages/MarsPage';
 import { DeepSpacePage } from './pages/DeepSpacePage';
@@ -129,11 +130,14 @@ export default function App() {
   };
 
   return (
-    <div 
-      key={displayedHash} 
-      className={isExiting ? 'page-fade-out' : 'page-fade-in'}
-    >
-      {renderPage(displayedHash)}
-    </div>
+    <>
+      <div 
+        key={displayedHash} 
+        className={isExiting ? 'page-fade-out' : 'page-fade-in'}
+      >
+        {renderPage(displayedHash)}
+      </div>
+      <OfflineStatusHUD />
+    </>
   );
 }
