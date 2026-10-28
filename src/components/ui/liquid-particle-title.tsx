@@ -43,7 +43,10 @@ export const LiquidParticleTitle: React.FC<LiquidParticleTitleProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const particlesRef = useRef<Particle[]>([]);
+  // Grouped by colorType so zero array allocations occur during 60fps render
+  const particlesByColorRef = useRef<Particle[][]>([[], [], [], [], []]);
+  const allParticlesRef = useRef<Particle[]>([]);
+
   const mouseRef = useRef({
     x: -9999,
     y: -9999,
@@ -52,14 +55,17 @@ export const LiquidParticleTitle: React.FC<LiquidParticleTitleProps> = ({
     vx: 0,
     vy: 0,
     isDown: false,
-    radius: 140,
+    radius: 135,
     active: false,
   });
 
   const animFrameRef = useRef<number>(0);
+  const isSleepingRef = useRef<boolean>(false);
+  const isVisibleRef = useRef<boolean>(true);
+  const wakeUpRef = useRef<() => void>(() => {});
   const [ready, setReady] = useState(false);
 
-  // Initialize and sample dense micro-particles directly from the styled text model
+  // Initialize and sample optimal micro-particles for rock-solid 60 FPS on any device
   const initParticles = useCallback(() => {
     const canvas = canvasRef.current;
     const container = containerRef.current;
@@ -69,13 +75,19 @@ export const LiquidParticleTitle: React.FC<LiquidParticleTitleProps> = ({
     const height = container.clientHeight;
     if (width <= 0 || height <= 0) return;
 
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    // Use optimal DPR (capped at 1.5 to prevent GPU fill-rate choke on mobile while remaining pin-sharp)
+    const isLowPower =
+      typeof navigator !== "undefined" &&
+      ((navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) ||
+        width < 640);
+
+    const dpr = Math.min(window.devicePixelRatio || 1, isLowPower ? 1.25 : 1.75);
     canvas.width = Math.round(width * dpr);
     canvas.height = Math.round(height * dpr);
     canvas.style.width = `${width}px`;
     canvas.style.height = `${height}px`;
 
-    // High-resolution offscreen canvas to sample particle anchor points
+    // Offscreen canvas for sampling
     const off = document.createElement("canvas");
     off.width = Math.round(width * dpr);
     off.height = Math.round(height * dpr);
@@ -86,7 +98,7 @@ export const LiquidParticleTitle: React.FC<LiquidParticleTitleProps> = ({
     octx.textAlign = "center";
     octx.textBaseline = "middle";
 
-    // Responsive font scaling
+    // Responsive font sizing
     let fontSize = 80;
     if (width < 440) fontSize = 38;
     else if (width < 640) fontSize = 52;
@@ -103,16 +115,13 @@ export const LiquidParticleTitle: React.FC<LiquidParticleTitleProps> = ({
     const line2Y = centerY + 2;
     const line3Y = centerY + lineHeight * 1.05;
 
-    // Clear transparent
     octx.clearRect(0, 0, width, height);
 
     // Line 1: "SOLAR SYSTEM"
-    // Dark shadow particles for 3D depth
     octx.font = `900 ${fontSize}px ${fontFamily}`;
     octx.fillStyle = "#18181b";
     octx.fillText("SOLAR SYSTEM", centerX + 5, line1Y + 5);
 
-    // Main text
     octx.fillStyle = "#ffffff";
     octx.fillText("SOLAR SYSTEM", centerX, line1Y);
 
@@ -126,22 +135,18 @@ export const LiquidParticleTitle: React.FC<LiquidParticleTitleProps> = ({
     const line2TotalW = graveWidth + orWidth;
     const line2StartX = (width - line2TotalW) / 2;
 
-    // Shadow
     octx.font = `900 ${fontSize}px ${fontFamily}`;
     octx.textAlign = "left";
     octx.fillStyle = "#18181b";
     octx.fillText(graveText, line2StartX + 5, line2Y + 5);
 
-    // Main GRAVEYARD... in neon electric cyan-blue
     octx.fillStyle = "#2997ff";
     octx.fillText(graveText, line2StartX, line2Y);
 
-    // Shadow for OR
     octx.font = `900 ${Math.round(fontSize * 0.76)}px ${fontFamily}`;
     octx.fillStyle = "#18181b";
     octx.fillText(orText, line2StartX + graveWidth + 4, line2Y + 4);
 
-    // Main OR in space grey
     octx.fillStyle = "#9ca3af";
     octx.fillText(orText, line2StartX + graveWidth, line2Y);
 
@@ -155,41 +160,38 @@ export const LiquidParticleTitle: React.FC<LiquidParticleTitleProps> = ({
     const badgeX = (width - badgeW) / 2;
     const badgeY = line3Y - badgeH / 2;
 
-    // Brutalist 3D white shadow
     octx.fillStyle = "#ffffff";
     octx.fillRect(badgeX + 6, badgeY + 6, badgeW, badgeH);
 
-    // Black outline
     octx.fillStyle = "#18181b";
     octx.fillRect(badgeX + 3, badgeY + 3, badgeW, badgeH);
 
-    // Main Space-Blue Box
     octx.fillStyle = "#0066cc";
     octx.fillRect(badgeX, badgeY, badgeW, badgeH);
 
-    // Thick White Border
     octx.strokeStyle = "#ffffff";
     octx.lineWidth = Math.max(3, Math.round(fontSize * 0.05));
     octx.strokeRect(badgeX, badgeY, badgeW, badgeH);
 
-    // Text inside box
     octx.textAlign = "center";
     octx.fillStyle = "#ffffff";
     octx.fillText(hallText, centerX, line3Y + 3);
 
-    // Sample pixels densely to build tens of thousands of micro-particles
+    // Smart density sampling: Step calibrated with dot size for zero gaps and 5x performance
     const imgData = octx.getImageData(0, 0, off.width, off.height);
     const data = imgData.data;
 
-    // Fine step size: 2.2px gives ~20,000+ crisp micro-dots
-    const step = width < 640 ? 2.6 : 2.2;
-    const newParticles: Particle[] = [];
+    const step = isLowPower ? 3.1 : 2.75;
+    const colorGroups: Particle[][] = [[], [], [], [], []];
+    const allList: Particle[] = [];
+
+    const baseSize = isLowPower ? 1.35 : 1.18;
 
     for (let py = 0; py < off.height; py += step) {
       for (let px = 0; px < off.width; px += step) {
         const idx = (Math.floor(py) * off.width + Math.floor(px)) * 4;
         const a = data[idx + 3];
-        if (a < 100) continue;
+        if (a < 95) continue;
 
         const r = data[idx];
         const g = data[idx + 1];
@@ -198,141 +200,68 @@ export const LiquidParticleTitle: React.FC<LiquidParticleTitleProps> = ({
         const x = px / dpr;
         const y = py / dpr;
 
-        // Categorize color
         let colorType: 0 | 1 | 2 | 3 | 4 = 0;
-
         if (r < 35 && g < 35 && b < 35) {
-          // Dark drop-shadow
           colorType = 4;
         } else if (r > 200 && g > 200 && b > 200) {
-          // Pure white
           colorType = 0;
         } else if (b > 200 && r < 100) {
-          // Neon electric blue (#2997ff)
           colorType = 1;
         } else if (b > 150 && r < 50) {
-          // Deep space blue (#0066cc)
           colorType = 3;
         } else {
-          // Metallic grey
           colorType = 2;
         }
 
-        // Tiny micro-particle size (0.85px - 1.25px)
-        const size = (width < 640 ? 0.75 : 0.95) + Math.random() * 0.35;
+        const size = baseSize + (Math.random() * 0.35 - 0.15);
 
-        newParticles.push({
-          x: x + (Math.random() - 0.5) * 8,
-          y: y + (Math.random() - 0.5) * 8,
+        const p: Particle = {
+          x,
+          y,
           originX: x,
           originY: y,
-          vx: (Math.random() - 0.5) * 0.5,
-          vy: (Math.random() - 0.5) * 0.5,
+          vx: 0,
+          vy: 0,
           size,
           colorType,
-          friction: 0.87 + Math.random() * 0.04,
-          spring: 0.055 + Math.random() * 0.035,
-        });
+          friction: 0.86 + Math.random() * 0.04,
+          spring: 0.06 + Math.random() * 0.03,
+        };
+
+        colorGroups[colorType].push(p);
+        allList.push(p);
       }
     }
 
-    particlesRef.current = newParticles;
+    particlesByColorRef.current = colorGroups;
+    allParticlesRef.current = allList;
     setReady(true);
+
+    // Initial render and then sleep until interaction
+    if (wakeUpRef.current) {
+      wakeUpRef.current();
+    }
   }, []);
 
-  // Main 60 FPS Render Loop with Batched Drawing
+  // Optimized Render Loop with Freeze-Proof Lifecycle and Zero GC
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d", { alpha: true });
     if (!ctx) return;
 
     let running = true;
-    let time = 0;
+    let isLoopRunning = false;
+    let quietFrames = 0;
 
-    const render = () => {
-      if (!running) return;
-      time += 0.016;
-
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      const mouse = mouseRef.current;
-      const particles = particlesRef.current;
-      const count = particles.length;
-
-      // Mouse velocity
-      mouse.vx = (mouse.x - mouse.prevX) * 0.5;
-      mouse.vy = (mouse.y - mouse.prevY) * 0.5;
-      mouse.prevX = mouse.x;
-      mouse.prevY = mouse.y;
-
-      const mSpeed = Math.hypot(mouse.vx, mouse.vy);
-      const effRadius = mouse.radius * (1 + Math.min(1.4, mSpeed / 16));
-
+    const drawFrame = (dpr: number, colorGroups: Particle[][], maxSpeed: number) => {
       ctx.save();
       ctx.scale(dpr, dpr);
 
-      // Separate arrays or fast batching for resting particles
-      // Group particles by colorType to draw tens of thousands of particles in 5 draw calls
-      const groups: { [key: number]: Particle[] } = { 0: [], 1: [], 2: [], 3: [], 4: [] };
-      const fastParticles: Particle[] = [];
-
-      for (let i = 0; i < count; i++) {
-        const p = particles[i];
-
-        // Interaction with mouse / touch
-        if (mouse.active) {
-          const dx = p.x - mouse.x;
-          const dy = p.y - mouse.y;
-          const dist = Math.hypot(dx, dy);
-
-          if (dist < effRadius && dist > 0.1) {
-            const force = (effRadius - dist) / effRadius;
-            const push = force * force * (mouse.isDown ? 28 : 15);
-
-            // Radial outward blast
-            p.vx += (dx / dist) * push;
-            p.vy += (dy / dist) * push;
-
-            // Liquid curl-noise tangential swirl
-            const swirl = force * 6.5;
-            p.vx += (-dy / dist) * swirl;
-            p.vy += (dx / dist) * swirl;
-
-            // Mouse wake transfer
-            p.vx += mouse.vx * force * 0.38;
-            p.vy += mouse.vy * force * 0.38;
-          }
-        }
-
-        // Return to origin with elastic spring
-        const hx = p.originX - p.x;
-        const hy = p.originY - p.y;
-        p.vx += hx * p.spring;
-        p.vy += hy * p.spring;
-
-        // Friction
-        p.vx *= p.friction;
-        p.vy *= p.friction;
-
-        // Ambient micro-shimmer
-        const ambient = Math.sin(time * 2.5 + i * 0.4) * 0.12;
-        p.x += p.vx + ambient;
-        p.y += p.vy + Math.cos(time * 2.0 + i * 0.6) * 0.12;
-
-        const speed = Math.hypot(p.vx, p.vy);
-        if (speed > 1.3) {
-          fastParticles.push(p);
-        } else {
-          groups[p.colorType].push(p);
-        }
-      }
-
-      // 1. Draw resting/slow particles in 5 ultra-fast batched draw calls
+      // Fast Draw: Render particles by static color group
       for (let cType = 0; cType <= 4; cType++) {
-        const list = groups[cType];
+        const list = colorGroups[cType];
         if (!list || list.length === 0) continue;
 
         ctx.fillStyle = COLOR_MAP[cType as 0 | 1 | 2 | 3 | 4];
@@ -345,34 +274,240 @@ export const LiquidParticleTitle: React.FC<LiquidParticleTitleProps> = ({
         ctx.fill();
       }
 
-      // 2. Draw fast moving particles as stretched liquid streaks / glowing trails
-      if (fastParticles.length > 0) {
-        for (let j = 0; j < fastParticles.length; j++) {
-          const p = fastParticles[j];
-          const sp = Math.hypot(p.vx, p.vy);
-          const len = Math.min(16, sp * 2.4);
-          const nx = p.vx / sp;
-          const ny = p.vy / sp;
+      // Fast moving streaks batched by color (stroke calls reduced to max 5)
+      if (maxSpeed > 1.2) {
+        for (let cType = 0; cType <= 4; cType++) {
+          const list = colorGroups[cType];
+          let hasStreaks = false;
 
           ctx.beginPath();
-          ctx.moveTo(p.x - nx * len * 0.5, p.y - ny * len * 0.5);
-          ctx.lineTo(p.x + nx * len * 0.5, p.y + ny * len * 0.5);
-          ctx.strokeStyle = STREAK_COLOR_MAP[p.colorType];
-          ctx.lineWidth = p.size * 1.4;
-          ctx.lineCap = "round";
-          ctx.stroke();
+          for (let j = 0; j < list.length; j++) {
+            const p = list[j];
+            const spSq = p.vx * p.vx + p.vy * p.vy;
+            if (spSq > 1.8) {
+              const sp = Math.sqrt(spSq);
+              const len = Math.min(14, sp * 2.2);
+              const nx = p.vx / sp;
+              const ny = p.vy / sp;
+              ctx.moveTo(p.x - nx * len * 0.5, p.y - ny * len * 0.5);
+              ctx.lineTo(p.x + nx * len * 0.5, p.y + ny * len * 0.5);
+              hasStreaks = true;
+            }
+          }
+
+          if (hasStreaks) {
+            ctx.strokeStyle = STREAK_COLOR_MAP[cType as 0 | 1 | 2 | 3 | 4];
+            ctx.lineWidth = 1.6;
+            ctx.lineCap = "round";
+            ctx.stroke();
+          }
         }
       }
 
       ctx.restore();
+    };
+
+    const render = () => {
+      if (!running || !isVisibleRef.current) {
+        isLoopRunning = false;
+        return;
+      }
+
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.75);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      const mouse = mouseRef.current;
+      const allParticles = allParticlesRef.current;
+      const colorGroups = particlesByColorRef.current;
+      const count = allParticles.length;
+
+      // Mouse velocity
+      mouse.vx = (mouse.x - mouse.prevX) * 0.5;
+      mouse.vy = (mouse.y - mouse.prevY) * 0.5;
+      mouse.prevX = mouse.x;
+      mouse.prevY = mouse.y;
+
+      const mSpeed = Math.hypot(mouse.vx, mouse.vy);
+      const effRadius = mouse.radius * (1 + Math.min(1.3, mSpeed / 18));
+      const effRadiusSq = effRadius * effRadius;
+
+      let maxSpeed = 0;
+
+      // Physics update loop
+      for (let i = 0; i < count; i++) {
+        const p = allParticles[i];
+
+        // Sanitize coordinates if any NaN or out-of-bounds anomaly occurred
+        if (!Number.isFinite(p.x) || !Number.isFinite(p.y)) {
+          p.x = p.originX;
+          p.y = p.originY;
+          p.vx = 0;
+          p.vy = 0;
+        }
+
+        if (mouse.active) {
+          const dx = p.x - mouse.x;
+          const dy = p.y - mouse.y;
+          const distSq = dx * dx + dy * dy;
+
+          if (distSq < effRadiusSq && distSq > 0.01) {
+            const dist = Math.sqrt(distSq);
+            const force = (effRadius - dist) / effRadius;
+            const push = force * force * (mouse.isDown ? 26 : 14);
+
+            p.vx += (dx / dist) * push;
+            p.vy += (dy / dist) * push;
+
+            const swirl = force * 6.2;
+            p.vx += (-dy / dist) * swirl;
+            p.vy += (dx / dist) * swirl;
+
+            p.vx += mouse.vx * force * 0.35;
+            p.vy += mouse.vy * force * 0.35;
+          }
+        }
+
+        // Return to origin spring
+        const hx = p.originX - p.x;
+        const hy = p.originY - p.y;
+        p.vx += hx * p.spring;
+        p.vy += hy * p.spring;
+
+        // Friction
+        p.vx *= p.friction;
+        p.vy *= p.friction;
+
+        // Clamp extreme speeds to prevent runaway motion
+        p.vx = Math.max(-45, Math.min(45, p.vx));
+        p.vy = Math.max(-45, Math.min(45, p.vy));
+
+        p.x += p.vx;
+        p.y += p.vy;
+
+        const spSq = p.vx * p.vx + p.vy * p.vy;
+        if (spSq > maxSpeed) {
+          maxSpeed = spSq;
+        }
+      }
+
+      // Draw the updated particles
+      drawFrame(dpr, colorGroups, maxSpeed);
+
+      // Sleep management: When mouse is inactive and particles settled, snap to origin and sleep
+      if (!mouse.active && maxSpeed < 0.02) {
+        quietFrames++;
+        if (quietFrames > 20) {
+          isSleepingRef.current = true;
+          isLoopRunning = false;
+          // Clean snap to exact origins
+          for (let i = 0; i < count; i++) {
+            const p = allParticles[i];
+            p.x = p.originX;
+            p.y = p.originY;
+            p.vx = 0;
+            p.vy = 0;
+          }
+          // Crisp static redraw at resting positions
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          drawFrame(dpr, colorGroups, 0);
+          return;
+        }
+      } else {
+        quietFrames = 0;
+      }
+
       animFrameRef.current = requestAnimationFrame(render);
     };
 
-    render();
+    const startLoop = () => {
+      if (!running || !isVisibleRef.current) return;
+      if (isLoopRunning) return; // Already animating smoothly
+
+      isLoopRunning = true;
+      isSleepingRef.current = false;
+      quietFrames = 0;
+      cancelAnimationFrame(animFrameRef.current);
+      animFrameRef.current = requestAnimationFrame(render);
+    };
+
+    const stopLoop = () => {
+      isLoopRunning = false;
+      cancelAnimationFrame(animFrameRef.current);
+    };
+
+    wakeUpRef.current = startLoop;
+    startLoop();
+
+    // Viewport IntersectionObserver: Cleanly pause when scrolled out of view, and unfreeze immediately upon return
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        const intersecting = entry.isIntersecting;
+        isVisibleRef.current = intersecting;
+
+        if (intersecting) {
+          // Re-entering viewport: reset stale mouse coordinates so particles return home smoothly
+          mouseRef.current.active = false;
+          mouseRef.current.isDown = false;
+          mouseRef.current.x = -9999;
+          mouseRef.current.y = -9999;
+          mouseRef.current.prevX = -9999;
+          mouseRef.current.prevY = -9999;
+          startLoop();
+        } else {
+          stopLoop();
+        }
+      },
+      { threshold: 0.05 }
+    );
+
+    if (canvas) {
+      observer.observe(canvas);
+    }
+
+    // Scroll listener: If the user suddenly scrolls down, immediately deactivate mouse force
+    // so particles do not freeze exploded or skewed while scrolling
+    const handleWindowScroll = () => {
+      if (mouseRef.current.active) {
+        mouseRef.current.active = false;
+        mouseRef.current.isDown = false;
+        mouseRef.current.x = -9999;
+        mouseRef.current.y = -9999;
+        mouseRef.current.prevX = -9999;
+        mouseRef.current.prevY = -9999;
+      }
+      if (isVisibleRef.current) {
+        startLoop();
+      }
+    };
+
+    // Tab visibility and blur listener
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        mouseRef.current.active = false;
+        mouseRef.current.isDown = false;
+        stopLoop();
+      } else if (isVisibleRef.current) {
+        startLoop();
+      }
+    };
+
+    const handleWindowBlur = () => {
+      mouseRef.current.active = false;
+      mouseRef.current.isDown = false;
+    };
+
+    window.addEventListener("scroll", handleWindowScroll, { passive: true });
+    window.addEventListener("blur", handleWindowBlur);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
     return () => {
       running = false;
-      cancelAnimationFrame(animFrameRef.current);
+      window.removeEventListener("scroll", handleWindowScroll);
+      window.removeEventListener("blur", handleWindowBlur);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      observer.disconnect();
+      stopLoop();
     };
   }, []);
 
@@ -380,12 +515,19 @@ export const LiquidParticleTitle: React.FC<LiquidParticleTitleProps> = ({
   useEffect(() => {
     initParticles();
 
+    let resizeTimer: NodeJS.Timeout;
     const handleResize = () => {
-      initParticles();
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        initParticles();
+      }, 150);
     };
 
     window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    return () => {
+      clearTimeout(resizeTimer);
+      window.removeEventListener("resize", handleResize);
+    };
   }, [initParticles]);
 
   // Pointer interaction handlers
@@ -394,17 +536,33 @@ export const LiquidParticleTitle: React.FC<LiquidParticleTitleProps> = ({
     const rect = containerRef.current?.getBoundingClientRect();
     if (!rect) return;
 
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    const clientX = e.clientX;
+    const clientY = e.clientY;
+
+    // Safety boundary check
+    if (
+      clientX < rect.left ||
+      clientX > rect.right ||
+      clientY < rect.top ||
+      clientY > rect.bottom
+    ) {
+      handlePointerLeave();
+      return;
+    }
+
+    const x = clientX - rect.left;
+    const y = clientY - rect.top;
 
     const mouse = mouseRef.current;
-    if (mouse.x < -9000) {
+    if (mouse.x < -9000 || !mouse.active) {
       mouse.prevX = x;
       mouse.prevY = y;
     }
     mouse.x = x;
     mouse.y = y;
     mouse.active = true;
+
+    wakeUpRef.current();
   };
 
   const handlePointerDown = (e: React.PointerEvent) => {
@@ -413,22 +571,25 @@ export const LiquidParticleTitle: React.FC<LiquidParticleTitleProps> = ({
     mouse.isDown = true;
     handlePointerMove(e);
 
-    // Cosmic shockwave burst on click / tap
-    const particles = particlesRef.current;
+    const particles = allParticlesRef.current;
     const mx = mouse.x;
     const my = mouse.y;
+    const shockRadiusSq = 200 * 200;
 
     for (let i = 0; i < particles.length; i++) {
       const p = particles[i];
       const dx = p.x - mx;
       const dy = p.y - my;
-      const d = Math.hypot(dx, dy);
-      if (d < 220 && d > 0.1) {
-        const force = (220 - d) / 220;
-        p.vx += (dx / d) * force * 32;
-        p.vy += (dy / d) * force * 32;
+      const dSq = dx * dx + dy * dy;
+      if (dSq < shockRadiusSq && dSq > 0.01) {
+        const d = Math.sqrt(dSq);
+        const force = (200 - d) / 200;
+        p.vx += (dx / d) * force * 28;
+        p.vy += (dy / d) * force * 28;
       }
     }
+
+    wakeUpRef.current();
   };
 
   const handlePointerUp = () => {
@@ -443,6 +604,7 @@ export const LiquidParticleTitle: React.FC<LiquidParticleTitleProps> = ({
     mouse.prevX = -9999;
     mouse.prevY = -9999;
     mouse.isDown = false;
+    wakeUpRef.current();
   };
 
   return (
@@ -452,18 +614,12 @@ export const LiquidParticleTitle: React.FC<LiquidParticleTitleProps> = ({
       onPointerMove={handlePointerMove}
       onPointerDown={handlePointerDown}
       onPointerUp={handlePointerUp}
-      onPointerCancel={handlePointerUp}
+      onPointerCancel={handlePointerLeave}
       onPointerLeave={handlePointerLeave}
       style={{ touchAction: "pan-y" }}
       aria-label="Solar System Graveyard... or Hall of Fame?"
     >
-      {/* Screen-reader and SEO accessible title */}
       <h1 className="sr-only">Solar System Graveyard... or Hall of Fame?</h1>
-
-      {/* 
-        The particle canvas IS the complete visual title.
-        Formed by tens of thousands of dense, microscopic stardust particles.
-      */}
       <canvas
         ref={canvasRef}
         className="w-full h-full block pointer-events-none"
