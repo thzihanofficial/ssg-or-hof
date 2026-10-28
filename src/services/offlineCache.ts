@@ -13,15 +13,33 @@ export const initServiceWorker = () => {
     registerSW({
       immediate: true,
       onNeedRefresh() {
-        console.log('[PWA] New content available, updating service worker in background.');
+        // silently update in background
       },
       onOfflineReady() {
-        console.log('[PWA] App is ready to work offline from cache.');
+        // silently ready
       },
       onRegisterError(error) {
-        console.warn('[PWA] Service worker registration error:', error);
+        console.warn('[PWA] Service worker error:', error);
       }
     });
+
+    // 100% Silent Background Pre-caching:
+    // User does not see any HUD or prompt. It quietly downloads and caches in the background.
+    const startSilentWarmup = () => {
+      checkCacheStatus()
+        .then(({ isReady }) => {
+          if (!isReady && navigator.onLine) {
+            startBackgroundCacheWarmup();
+          }
+        })
+        .catch(() => {});
+    };
+
+    if ('requestIdleCallback' in window) {
+      (window as any).requestIdleCallback(startSilentWarmup, { timeout: 3000 });
+    } else {
+      setTimeout(startSilentWarmup, 1500);
+    }
   }
 };
 
