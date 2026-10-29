@@ -80,12 +80,12 @@ export default function App() {
       saveScrollPosition(displayedHash, window.scrollY);
       setIsExiting(true);
 
+      // Fast dark fade switch (75ms)
       const timer = setTimeout(() => {
         setDisplayedHash(hash);
-        // Automatically restore exact scroll position if returning back, or start at top if forward
         restoreScroll(hash);
         setIsExiting(false);
-      }, 120);
+      }, 75);
 
       return () => clearTimeout(timer);
     }
@@ -139,11 +139,14 @@ export default function App() {
   };
 
   return (
-    <div 
-      key={displayedHash} 
-      className={isExiting ? 'page-fade-out' : 'page-fade-in'}
-    >
-      {renderPage(displayedHash)}
+    <div className="min-h-screen bg-[#07080c] overflow-x-clip">
+      {/* Main Page Viewport Container with pure fast dark fade */}
+      <div 
+        key={displayedHash} 
+        className={isExiting ? 'page-fade-out' : 'page-fade-in'}
+      >
+        {renderPage(displayedHash)}
+      </div>
     </div>
   );
 }
