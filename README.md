@@ -214,19 +214,6 @@ Mission-specific routes are registered explicitly in `src/App.tsx`. When adding 
         └── deepspace/          # 12 story pages
 ```
 
-## Add or update a mission story
-
-Mission details share the `MissionDetailLayout` component. To add a story:
-
-1. Create a page component in the appropriate folder: `src/pages/moon/`, `src/pages/mars/`, or `src/pages/deepspace/`.
-2. Populate `MissionDetailLayout` with reviewed mission content: title, dates, location, current status, narrative chapters, stats, objectives, a "Did You Know?" fact, and a quiz.
-3. Import the page and register its hash route in `src/App.tsx`.
-4. Add the story to the matching destination hub array in `MoonPage.tsx`, `MarsPage.tsx`, or `DeepSpacePage.tsx`.
-5. Add the narration asset and update the audio lookup in `MissionDetailLayout.tsx` if the name/hash is not already mapped.
-6. Add any required image URLs to the relevant gallery and to `src/data/allMissionImages.json` / offline asset configuration if they should be included in cache warm-up.
-7. Check the page on desktop and mobile, test quiz feedback, image links, audio controls, previous/next navigation, and the production build.
-
-Keep the narrative accessible to school-age readers, and verify dates, science claims, mission status, and image attribution using mission-specific primary sources before publishing changes.
 
 ## Sources, accuracy, and media
 
