@@ -64,7 +64,6 @@ export const CORE_PWA_ASSETS: string[] = [
   '/apple-touch-icon.png',
   '/robots.txt',
   '/sitemap.xml',
-  '/zihan.png',
 ];
 
 export const ALL_MISSION_IMAGES: string[] = missionImages;
