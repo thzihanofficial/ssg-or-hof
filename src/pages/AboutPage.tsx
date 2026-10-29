@@ -27,10 +27,6 @@ import {
 } from 'lucide-react';
 
 export const AboutPage: React.FC = () => {
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
-  }, []);
-
   // Simple state for count-up or interactive preview
   const [activeStep, setActiveStep] = useState(0);
 

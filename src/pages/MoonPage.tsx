@@ -1,15 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
 import { ArrowLeft } from 'lucide-react';
 import { PolaroidLineCarousel, Slide } from '../components/ui/polaroid-line-carousel';
 import { ScrollReveal } from '../components/ui/ScrollReveal';
+import { navigateBack } from '../services/scrollRestoration';
 
 export const MoonPage: React.FC = () => {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   const moonMissions = [
     {
       name: "Surveyor 1",
@@ -90,7 +87,7 @@ export const MoonPage: React.FC = () => {
           {/* Back Navigation Button */}
           <div className="mb-6 flex items-center justify-between">
             <button
-              onClick={() => window.location.hash = ''}
+              onClick={() => navigateBack('')}
               className="inline-flex items-center space-x-2.5 text-[15px] sm:text-[16px] font-black uppercase text-white bg-black border-2 border-white px-5 py-2.5 shadow-[4px_4px_0px_0px_#ffffff] hover:bg-[#0066cc] hover:text-white transition-all cursor-pointer"
             >
               <ArrowLeft className="w-5 h-5 stroke-[3]" />
@@ -157,6 +154,8 @@ export const MoonPage: React.FC = () => {
               accentColor="#2997ff"
               background="transparent"
               ariaLabel="Lunar Expedition Mission Polaroid Prints"
+              initialIndex={Number(sessionStorage.getItem('moon_carousel_idx')) || 0}
+              onChange={(idx) => sessionStorage.setItem('moon_carousel_idx', String(idx))}
             />
           </div>
         </ScrollReveal>

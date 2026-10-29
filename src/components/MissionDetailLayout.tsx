@@ -10,6 +10,7 @@ import {
 
 import { AudioStoryPlayer } from './AudioStoryPlayer';
 import { ScrollReveal } from './ui/ScrollReveal';
+import { navigateBack } from '../services/scrollRestoration';
 
 export interface MissionChapter {
   title: string;
@@ -258,7 +259,7 @@ export const MissionDetailLayout: React.FC<MissionDetailProps> = ({
         {/* Top Back Navigation */}
         <div className="mb-8">
           <button
-            onClick={() => window.location.hash = categoryHash}
+            onClick={() => navigateBack(categoryHash)}
             className="inline-flex items-center space-x-2.5 text-[14px] sm:text-[16px] font-black uppercase tracking-wider text-white hover:text-[#2997ff] transition-all focus:outline-none rounded-none px-5 py-3 bg-black border-2 border-white shadow-[4px_4px_0px_0px_#2997ff] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none cursor-pointer font-mono-retro"
           >
             <ArrowLeft className="w-5 h-5 transition-transform group-hover:-translate-x-1" />
@@ -536,10 +537,7 @@ export const MissionDetailLayout: React.FC<MissionDetailProps> = ({
             ) : <div />}
 
             <button
-              onClick={() => {
-                window.location.hash = categoryHash;
-                window.scrollTo(0, 0);
-              }}
+              onClick={() => navigateBack(categoryHash)}
               className="text-[15px] font-black uppercase text-[#2997ff] border-2 border-[#2997ff] px-8 py-4 bg-black hover:bg-[#2997ff] hover:text-white transition-all shadow-[4px_4px_0px_0px_#2997ff] cursor-pointer"
             >
               [ EXPLORE ALL {categoryName} ]

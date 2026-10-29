@@ -49,6 +49,7 @@ export type PolaroidLineCarouselProps = {
   accentColor?: string
   onChange?: (index: number) => void
   onSelectSlide?: (slide: Slide, index: number) => void
+  initialIndex?: number
   className?: string
   style?: React.CSSProperties
   ariaLabel?: string
@@ -175,13 +176,14 @@ export const PolaroidLineCarousel: React.FC<PolaroidLineCarouselProps> = ({
   accentColor = "#2997ff",
   onChange,
   onSelectSlide,
+  initialIndex,
   className = "",
   style,
   ariaLabel = "Polaroid Mission Archive Carousel",
 }) => {
   const containerRef = React.useRef<HTMLDivElement>(null)
   const [containerWidth, setContainerWidth] = React.useState(1100)
-  const [currentIndex, setCurrentIndex] = React.useState(0)
+  const [currentIndex, setCurrentIndex] = React.useState(initialIndex ?? 0)
   const [isInteracting, setIsInteracting] = React.useState(false)
 
   // Responsive effective card width and photo frame height
@@ -193,8 +195,8 @@ export const PolaroidLineCarousel: React.FC<PolaroidLineCarouselProps> = ({
   const y0 = 65 // string baseline height
 
   // Physics state
-  const offsetRef = React.useRef(0) // target scroll offset in pixels
-  const animPosRef = React.useRef(0) // current interpolated position
+  const offsetRef = React.useRef((initialIndex ?? 0) * spacing) // target scroll offset in pixels
+  const animPosRef = React.useRef((initialIndex ?? 0) * spacing) // current interpolated position
   const animVelRef = React.useRef(0) // current velocity
   const anglesRef = React.useRef<number[]>(slides.map(() => 0))
   const angleVelsRef = React.useRef<number[]>(slides.map(() => 0))

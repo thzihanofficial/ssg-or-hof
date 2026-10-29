@@ -47,18 +47,24 @@ import { ChandraObservatoryPage } from './pages/deepspace/ChandraObservatoryPage
 import { KeplerTelescopePage } from './pages/deepspace/KeplerTelescopePage';
 import { JamesWebbTelescopePage } from './pages/deepspace/JamesWebbTelescopePage';
 
+import { initScrollRestoration, saveScrollPosition, restoreScroll } from './services/scrollRestoration';
+
 export default function App() {
   const [hash, setHash] = useState(() => window.location.hash);
   const [displayedHash, setDisplayedHash] = useState(() => window.location.hash);
   const [isExiting, setIsExiting] = useState(false);
 
   useEffect(() => {
+    const cleanup = initScrollRestoration();
     setHash(window.location.hash);
     setDisplayedHash(window.location.hash);
+    return cleanup;
   }, []);
 
   useEffect(() => {
     const handleHashChange = () => {
+      // Immediately snapshot scroll position of the page we are leaving
+      saveScrollPosition(displayedHash, window.scrollY);
       setHash(window.location.hash);
     };
 
@@ -66,14 +72,18 @@ export default function App() {
     return () => {
       window.removeEventListener('hashchange', handleHashChange);
     };
-  }, []);
+  }, [displayedHash]);
 
   useEffect(() => {
     if (hash !== displayedHash) {
+      // Save scroll of departing page
+      saveScrollPosition(displayedHash, window.scrollY);
       setIsExiting(true);
+
       const timer = setTimeout(() => {
         setDisplayedHash(hash);
-        window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
+        // Automatically restore exact scroll position if returning back, or start at top if forward
+        restoreScroll(hash);
         setIsExiting(false);
       }, 120);
 

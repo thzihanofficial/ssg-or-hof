@@ -1,10 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { MissionDetailLayout } from '../../components/MissionDetailLayout';
 
 export const KeplerTelescopePage: React.FC = () => {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
   return (
     <MissionDetailLayout

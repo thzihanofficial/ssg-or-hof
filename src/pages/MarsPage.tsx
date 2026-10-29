@@ -1,15 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
 import { ArrowLeft } from 'lucide-react';
 import { PolaroidLineCarousel, Slide } from '../components/ui/polaroid-line-carousel';
 import { ScrollReveal } from '../components/ui/ScrollReveal';
+import { navigateBack } from '../services/scrollRestoration';
 
 export const MarsPage: React.FC = () => {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   const marsMissions = [
     {
       name: "Mariner 6 (1969)",
@@ -156,7 +153,7 @@ export const MarsPage: React.FC = () => {
           {/* Back Navigation Button */}
           <div className="mb-6 flex items-center justify-between">
             <button
-              onClick={() => window.location.hash = ''}
+              onClick={() => navigateBack('')}
               className="inline-flex items-center space-x-2.5 text-[15px] sm:text-[16px] font-black uppercase text-white bg-black border-2 border-white px-5 py-2.5 shadow-[4px_4px_0px_0px_#ffffff] hover:bg-[#ff6b4a] hover:text-black transition-all cursor-pointer"
             >
               <ArrowLeft className="w-5 h-5 stroke-[3]" />
@@ -223,6 +220,8 @@ export const MarsPage: React.FC = () => {
               accentColor="#ff6b4a"
               background="transparent"
               ariaLabel="Martian Expedition Mission Polaroid Prints"
+              initialIndex={Number(sessionStorage.getItem('mars_carousel_idx')) || 0}
+              onChange={(idx) => sessionStorage.setItem('mars_carousel_idx', String(idx))}
             />
           </div>
         </ScrollReveal>
