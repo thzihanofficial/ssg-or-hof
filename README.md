@@ -1,256 +1,200 @@
 # Solar System Graveyard... or Hall of Fame?
 
-**An interactive, story-driven archive of NASA exploration hardware for high-school students and curious space enthusiasts.**
+**An interactive storytelling website where NASA's retired spacecraft tell their own stories, in the first person, with a voice. Written for high school students.**
 
-**Built by:** Universe Breakers  
-**Event:** NASA Space Apps Challenge 2026  
-**Challenge:** *Abandoned but not Forgotten: Storytelling about NASA's Discarded Equipment on the Moon and Mars*
+**Live demo:** [https://ssg-or-hof.vercel.app](https://ssg-or-hof.vercel.app)
 
-- **Live demo:** https://ssg-or-hof.vercel.app
-- **Source repository:** https://github.com/thzihanofficial/ssg-or-hof
+Built by team **Universe Breakers** (Bangladesh) for the **NASA Space Apps Challenge 2026**.
+Challenge: *Abandoned but not Forgotten: Storytelling about NASA's Discarded Equipment on the Moon and Mars*
 
-> Where did these machines go? Why were they sent? What did they help us learn? The project tells those stories in plain language, often from the machine's first-person perspective.
+---
 
-## Overview
+## What it does
 
-NASA exploration hardware has travelled to the Moon, Mars, and beyond. Some machines completed their missions and fell silent; other spacecraft and observatories continue to operate. **Solar System Graveyard... or Hall of Fame?** turns selected mission histories into an interactive educational experience rather than presenting them only as technical lists.
+Since the 1960s, NASA has left hardware on the Moon, on Mars, and in deep space. Some of it is still working. Much of it has been silent for decades. Most people only ever see these machines as lists of facts and dates.
 
-Each mission story combines short narrative chapters with mission facts, imagery, a status label, learning objectives, and a quick quiz. The goal is to help students connect the machine itself with the mission it performed and the science it made possible.
+This project asks a different question: are they a **graveyard**, or a **hall of fame**?
 
-**Scope note:** The site includes completed missions as well as selected ongoing missions and observatories for context. Not every entry is inactive or literally abandoned, and operational-status labels should be checked against current official mission sources.
+Every machine gets its own page and **tells its own story in the first person** ("I was built with one urgent purpose in mind..."), in plain language a high school student can follow. Each story can also be **listened to** as an AI-narrated audio track.
 
-## Explore the archive
-
-The app includes **36 mission-story pages across three destination hubs**.
-
-### Moon — 7 story pages
-
-- Surveyor 1
-- Surveyor 3
-- Surveyor 5, 6 & 7
-- Apollo 15 Lunar Roving Vehicle (LRV)
-- Apollo 16 Lunar Roving Vehicle (LRV)
-- Apollo 17 Lunar Roving Vehicle (LRV)
-- Clementine
-
-### Mars — 17 story pages
-
-- Mariner 6
-- Mariner 7
-- Mariner 9
-- Viking 1 & 2
-- Mars Global Surveyor
-- Mars Pathfinder
-- 2001 Mars Odyssey
-- Spirit & Opportunity
-- Mars Reconnaissance Orbiter (MRO)
-- Phoenix Mars Lander
-- Curiosity Rover
-- MAVEN
-- InSight
-- Mars 2020 / Perseverance & Ingenuity
-- Sojourner
-- Opportunity
-- Perseverance
-
-### Deep Space — 12 story pages
-
-- TIROS-1
-- Mariner Program
-- Pioneer 10 & 11
-- Voyager 1 & 2
-- Hubble Space Telescope
-- Chandra X-ray Observatory
-- Kepler Space Telescope
-- MESSENGER
-- New Horizons
-- Juno
-- OSIRIS-REx / OSIRIS-APEX
-- James Webb Space Telescope (JWST)
-
-Some related missions are grouped into a single story page, so the number of individual spacecraft mentioned in the stories is not the same as the number of pages.
+---
 
 ## Features
 
-### Exploration and navigation
-- **Interactive 3D Solar System scene** built with Three.js. Moon and Mars can be selected to open their destination hubs; a Deep Space route is also available.
-- **Three destination hubs** for the Moon, Mars, and Deep Space.
-- **Draggable, horizontal story carousels** with mission names, short first-person introductions, dates, imagery, and links to individual stories.
-- **Hash-based navigation** with direct links to destination and mission pages.
-- **Previous / next story controls** and custom scroll-position restoration when navigating between pages.
-- Responsive navigation, section reveals, and reduced-motion CSS support.
+### Stories
+- **36 mission story pages** in three destinations:
+  - **Moon (7):** Surveyor 1, Surveyor 3, Surveyor 5/6/7, Clementine, Apollo 15/16/17 Lunar Roving Vehicles
+  - **Mars (17):** Mariner 6/7/9, Viking 1 & 2, Mars Global Surveyor, Pathfinder, Sojourner, 2001 Mars Odyssey, Spirit & Opportunity, Opportunity, Mars Reconnaissance Orbiter, Phoenix, Curiosity, MAVEN, InSight, Mars 2020 (Ingenuity), Perseverance
+  - **Deep Space (12):** TIROS-1, Mariner Program, Pioneer 10 & 11, Voyager 1 & 2, Hubble, Chandra, Kepler, MESSENGER, New Horizons, Juno, OSIRIS-REx/APEX, James Webb Space Telescope
+- **First-person chapters.** Short chapters on why the machine was built, the hardest moment, what it discovered, and its legacy.
+- **Status at a glance.** Every machine is marked as still active or gone silent.
+- **Mission stats box** with launch date, destination, data returned, and status.
+- **"Did You Know?" fact** and **mission objectives** on every page.
+- **Quick trivia quiz** with an explanation of each answer.
+- **"The images I captured" gallery** with real mission images.
+- **Previous / Next navigation** so students move from one story to the next.
 
-### Mission storytelling and learning
-- **First-person narrative chapters** that present mission history in an approachable voice. These are original educational narratives, not quotations from actual spacecraft.
-- **Mission details** including dates, destination/location, status label, launch/landing or target information, and data/mission statistics where supplied.
-- **Mission objectives** explained as a short list.
-- **"Did You Know?" facts** on story pages.
-- **Interactive multiple-choice quiz** with answer feedback and an explanation.
-- **Mission image viewer** for captured-image galleries where configured, with links to open image files.
-- **Narrated audio player** with play/pause, progress seeking, mute, and replay controls.
-- A dedicated **About** page that explains the project and lists general reference portals.
+### Audio
+- **"Listen to my story" player** on every mission page, with play/pause, progress bar, restart, and mute.
+- Narration is **AI-generated** (see [Use of AI](#use-of-ai)).
+- 36 narration files, one per mission, stored in `public/audios /`.
 
-### Installability and caching
-- Vite PWA plugin, web-app manifest, icons, and service-worker registration are configured.
-- Background cache-warming and runtime caching are implemented for selected images, audio, 3D models, fonts, and other resources.
-- Offline behaviour depends on what the browser has successfully cached. The hero background video, some images, and the NASA Eyes embed are externally hosted, so **a working internet connection is recommended**; a completely offline experience is not guaranteed.
+### Exploration
+- **Interactive 3D solar system** (Three.js) on the home page, with the Sun and planets as 3D models you can rotate. The Moon and Mars link into their story hubs.
+- **3D coverflow carousel** for choosing a mission inside each destination.
+- **Embedded NASA Eyes on the Solar System** view on the Mars Odyssey page.
 
-## Technology
+### App experience
+- **Installable PWA.** The site can be installed on a phone or desktop and runs in standalone mode.
+- **Offline support.** A service worker caches the app, audio, 3D models, and mission images in the background, so stories keep working on a weak connection.
+- **Scroll position restore** when moving between pages.
+- **About page** with the project idea, features, sources, AI disclosure, and team.
+- Responsive layout for phones, tablets, and desktops.
 
-| Area | Technology |
+---
+
+## Tech stack
+
+| Layer | Tools |
 | --- | --- |
-| UI | React 19 + TypeScript |
-| Development/build | Vite 8 |
-| Styling | Tailwind CSS 4 via the Vite plugin |
-| 3D scene | Three.js, GLTFLoader, OrbitControls |
-| Icons | lucide-react |
-| Motion and reveal effects | Motion/Framer Motion dependencies and custom CSS/React components |
-| Routing | Lightweight hash routing implemented in `src/App.tsx` |
-| PWA | `vite-plugin-pwa`, service worker, Cache Storage |
-| Hosting configuration | Vercel rewrite to `index.html` |
+| UI | React 19, TypeScript |
+| Build tool | Vite 8 |
+| Styling | Tailwind CSS 4 |
+| 3D | Three.js (`GLTFLoader`, `OrbitControls`), `.glb` planet models |
+| Animation / icons | motion, framer-motion, lucide-react |
+| PWA | vite-plugin-pwa (Workbox) |
+| Routing | Lightweight hash routing (`#/moon/surveyor1`), no router library |
+| Hosting | Vercel (static, with SPA rewrite) |
 
-The current app is a **static front end**: mission content is authored in the repository and rendered by React. It does not require a backend, database, or API key to run the current experience. It does not fetch a live NASA API for its mission-story content at runtime.
+The app is a **fully static front end**. There is no database, and no API key is needed to run it.
 
-## Run locally
+---
+
+## Run it locally
 
 ### Prerequisites
+- **Node.js 20.19+ or 22.12+**
+- **npm** (comes with Node.js)
 
-- Node.js **22.12 or later** (Node 24 is also suitable)
-- npm
-
-### Install dependencies
-
-From the repository root:
+### Install and start
 
 ```bash
+# 1. Clone
+git clone https://github.com/thzihanofficial/ssg-or-hof.git
+cd ssg-or-hof
+
+# 2. Install dependencies
 npm install --legacy-peer-deps
-```
 
-The existing dependency set may produce an npm peer-dependency resolution error with a plain `npm install`; the legacy peer-dependency flag is the currently documented workaround.
-
-### Start the development server
-
-```bash
+# 3. Start the dev server
 npm run dev
 ```
 
 Open **http://localhost:3000**.
 
-### Available scripts
+> **Note:** if a plain `npm install` stops with an `ERESOLVE` peer-dependency error (between `vite` and `esbuild`), use `--legacy-peer-deps`. The install and the build both work with it.
 
-| Command | Purpose |
+### Commands
+
+| Command | What it does |
 | --- | --- |
-| `npm run dev` | Start Vite on port 3000 and listen on all interfaces |
-| `npm run build` | Create the production bundle in `dist/` |
-| `npm run preview` | Preview the production build locally |
-| `npm run lint` | Run the TypeScript compiler in no-emit mode (`tsc --noEmit`) |
-| `npm run clean` | Remove the `dist` folder and `server.js` in a Unix-like shell |
+| `npm run dev` | Start the dev server on port 3000 |
+| `npm run build` | Create a production build in `dist/` (also generates the service worker) |
+| `npm run preview` | Serve the production build locally |
+| `npm run lint` | Type-check with TypeScript (`tsc --noEmit`) |
 
-There is currently no dedicated automated test script in `package.json`.
+### Deploy
 
-## Routes
+Run `npm run build` and upload `dist/` to any static host. On Vercel, `vercel.json` already rewrites every route to `index.html`. Because routing uses URL hashes, no other redirect rules are needed.
 
-The application uses URL hashes rather than a router package. Examples:
+> **Heads-up:** the offline cache downloads the audio, 3D models, and images in the background (the service worker precaches about 190 MB). Keep this in mind on a slow or metered connection.
 
-| Page | Hash route |
-| --- | --- |
-| Home | `#` (empty hash) |
-| Moon hub | `#/moon` |
-| Surveyor 1 | `#/moon/surveyor1` |
-| Mars hub | `#/mars` |
-| Opportunity | `#/mars/opportunity` |
-| Deep Space hub | `#/deep-space` |
-| Voyager 1 & 2 | `#/deep-space/voyager1and2` |
-| About | `#/about` |
-
-Mission-specific routes are registered explicitly in `src/App.tsx`. When adding a story, keep its hub card, route, previous/next links, audio mapping, and assets in sync.
+---
 
 ## Project structure
 
-```text
-.
-├── index.html
-├── package.json
-├── vite.config.ts
-├── vercel.json
-├── public/
-│   ├── audio files for mission narratives
-│   ├── planets/              # 3D model assets
-│   ├── favicon.svg
-│   └── PWA icons
-└── src/
-    ├── App.tsx               # Hash router and page transitions
-    ├── main.tsx              # React entry point and service-worker setup
-    ├── index.css             # Tailwind import, global styles, motion rules
-    ├── types.ts              # Shared TypeScript types
-    ├── assets/                # Images and local 3D model source assets
-    ├── components/
-    │   ├── Hero.tsx
-    │   ├── Navbar.tsx
-    │   ├── DestinationSection.tsx
-    │   ├── SolarSystem3D.tsx
-    │   ├── MissionDetailLayout.tsx
-    │   ├── AudioStoryPlayer.tsx
-    │   ├── CTASection.tsx
-    │   ├── Footer.tsx
-    │   └── ui/                # Carousels, scroll reveals, and visual components
-    ├── data/
-    │   ├── landingContent.ts
-    │   ├── allMissionImages.json
-    │   └── offlineAssets.ts
-    ├── hooks/
-    │   └── usePWAInstall.ts
-    ├── services/
-    │   ├── offlineCache.ts
-    │   └── scrollRestoration.ts
-    └── pages/
-        ├── Home.tsx
-        ├── MoonPage.tsx
-        ├── MarsPage.tsx
-        ├── DeepSpacePage.tsx
-        ├── AboutPage.tsx
-        ├── moon/               # 7 story pages
-        ├── mars/               # 17 story pages
-        └── deepspace/          # 12 story pages
+```
+public/
+├── audios /{moon,mars,deep_space}/   # 36 AI-narrated story tracks (.mp3)
+├── planets/                          # 3D planet models (.glb)
+├── pwa-*.png, apple-touch-icon.png   # PWA icons
+└── favicon.svg, robots.txt, sitemap.xml
+
+src/
+├── App.tsx                           # Hash router + page transition
+├── main.tsx                          # Entry point
+├── types.ts                          # Shared TypeScript types
+├── data/
+│   ├── landingContent.ts             # Brand text, hero copy, destination profiles
+│   ├── allMissionImages.json         # Mission image list (for the offline cache)
+│   └── offlineAssets.ts              # What gets cached for offline use
+├── services/
+│   ├── offlineCache.ts               # Service worker + background cache warm-up
+│   └── scrollRestoration.ts          # Per-page scroll memory
+├── hooks/usePWAInstall.ts            # "Install app" prompt logic
+├── components/
+│   ├── MissionDetailLayout.tsx       # Shared template for every story page
+│   ├── AudioStoryPlayer.tsx          # "Listen to my story" player
+│   ├── SolarSystem3D.tsx             # Interactive 3D solar system
+│   ├── Hero.tsx, DestinationSection.tsx, CTASection.tsx
+│   ├── Navbar.tsx, Footer.tsx
+│   └── ui/                           # Coverflow carousel, slide tabs, scroll reveal, etc.
+└── pages/
+    ├── Home.tsx, AboutPage.tsx
+    ├── MoonPage.tsx / MarsPage.tsx / DeepSpacePage.tsx   # Destination hubs
+    ├── moon/        # 7 story pages
+    ├── mars/        # 17 story pages
+    └── deepspace/   # 12 story pages
 ```
 
+### Adding a new mission
 
-## Sources, accuracy, and media
+1. Create `src/pages/<destination>/YourMissionPage.tsx` and pass your content to `MissionDetailLayout`: `chapters`, `stats`, `didYouKnow`, `objectives`, `quiz`, `capturedImages`, `audioSrc`, and `prevStory` / `nextStory`.
+2. Register the route in `renderPage()` in `src/App.tsx`, for example `#/moon/yourmission`.
+3. Add a card for it in the matching hub page (`MoonPage.tsx`, `MarsPage.tsx`, or `DeepSpacePage.tsx`).
+4. Put the narration file in `public/audios /<destination>/` and add its path to `src/data/offlineAssets.ts` so it is cached offline.
 
-The project content is curated in the source code; it is **not a live NASA dataset**. The About page lists general reference portals, including:
+---
 
-- [NASA](https://www.nasa.gov/)
-- [NASA Science](https://science.nasa.gov/)
-- [NASA Mars Exploration](https://mars.nasa.gov/)
-- [NASA Image and Video Library](https://images.nasa.gov/)
-- [NASA Eyes on the Solar System](https://eyes.nasa.gov/)
-- [NASA Jet Propulsion Laboratory (JPL)](https://www.jpl.nasa.gov/)
-- [National Space Science Data Center (NSSDC)](https://nssdc.gsfc.nasa.gov/)
+## Data sources and attribution
 
-The repository also references imagery from sources such as Wikimedia Commons, Unsplash, and other third-party hosts. Assets are loaded both from the repository and from external URLs. **A link being publicly accessible does not by itself establish that an image or audio asset is free to redistribute.** Check the specific asset's credit, license, and terms before reusing or redistributing it.
+This project does **not** call any live NASA API at runtime. All content is curated by hand and stored in the source code. The facts and images come from the sources below.
 
-Mission narratives are original first-person retellings of documented events. They should not be interpreted as direct quotes from spacecraft, and factual details or active/inactive labels can become outdated. For formal judging or future releases, verify claims against authoritative mission-specific sources and make citations/credits easy to locate on the relevant story pages.
+### NASA sources
 
-## Environment and secrets
+| Source | Used for |
+| --- | --- |
+| [nasa.gov](https://www.nasa.gov) | Mission photographs and news archive |
+| [science.nasa.gov](https://science.nasa.gov) | Planetary Science mission pages and imagery |
+| [mars.nasa.gov](https://mars.nasa.gov) | Mars mission imagery |
+| [NASA Image and Video Library](https://images.nasa.gov) | Archive photographs |
+| [NASA's Eyes on the Solar System](https://eyes.nasa.gov) | Embedded interactive 3D view on the Mars Odyssey page |
 
-The current app does not need a runtime API key. The repository's `.env.example` contains placeholder values from the development environment; do not commit real API keys, tokens, or private credentials.
+### Other sources
 
-## Deployment
+- **Wikimedia Commons** for many historical spacecraft photographs (public domain or Creative Commons, as marked on each source page).
+- A small number of images come from other third-party websites. They remain the property of their respective owners and are used here for educational, non-commercial purposes.
+- **3D planet models** (`.glb`) in `public/planets/`: check the source and licence of each model before reusing it.
+- **Background music** in the project video: "Hazy Cosmos" (credited in the video description).
 
-The repository includes `vercel.json` configured for Vite and a rewrite to `/index.html`.
+### Text
+The story chapters, quizzes, and "Did You Know?" facts are **original writing** by the team. They retell publicly documented mission facts in a first-person voice.
 
-For a typical static deployment:
+---
 
-1. Install dependencies.
-2. Run `npm run build`.
-3. Deploy the generated `dist/` directory to Vercel or another static host.
+## Use of AI
 
-The current navigation uses hash routes, so mission navigation does not depend on server-side route handlers.
+In line with the NASA Space Apps Challenge rules, here is how AI was used:
 
-## License
+- **Story text:** written by the team from public NASA sources. We used **Claude** (Anthropic) to help check facts, find errors, and tighten the wording, and to rewrite each story as a narration script.
+- **Audio narration:** the narration for all 36 stories is generated with **ElevenLabs** (Eleven v4) from those scripts. It is an AI voice, not a human recording.
+- **Video voice-over:** the project video uses an AI voice-over.
 
-No root-level `LICENSE` file is currently included in this repository. Unless a license is added, do not assume the code is licensed for unrestricted reuse. Code licensing and third-party media rights are separate questions.
+---
 
-## Disclaimer
 
-This is a participant-created educational project for **NASA Space Apps Challenge 2026** by **Universe Breakers**. It is **not affiliated with, sponsored by, or endorsed by NASA**.
+## Team
+
+**Universe Breakers**, a team from Bangladesh.
+
+- Tasnimul Hasan Zihan
