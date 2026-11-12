@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronRight, ArrowDown, Compass, Sparkles } from 'lucide-react';
 import { HERO_CONTENT, BRAND } from '../data/landingContent';
-import { LiquidParticleTitle } from './ui/liquid-particle-title';
 import { ScrollReveal } from './ui/ScrollReveal';
 
 export const Hero: React.FC = () => {
@@ -80,10 +79,17 @@ export const Hero: React.FC = () => {
       {/* Hero Content Container */}
       <div className="relative z-10 max-w-[980px] w-full mx-auto px-6 text-center my-auto flex flex-col items-center">
         
-        {/* Main Title - Pure Interactive Liquid Particle Model */}
-        <div className="w-full max-w-[960px] h-[190px] min-[440px]:h-[240px] sm:h-[300px] md:h-[360px] lg:h-[390px] mb-8">
-          <LiquidParticleTitle className="w-full h-full" />
-        </div>
+        {/* Main Title */}
+        <ScrollReveal direction="up" distance="30px" duration={700}>
+          <h1 className="text-[44px] min-[440px]:text-[56px] sm:text-[72px] md:text-[84px] lg:text-[96px] font-black uppercase tracking-tight text-white leading-[0.95] mb-8 select-none">
+            SOLAR SYSTEM <br />
+            <span className="text-[#2997ff]">GRAVEYARD...</span>{' '}
+            <span className="text-white/80">OR</span> <br />
+            <span className="inline-block mt-3 bg-[#0066cc] text-white border-4 border-white px-5 sm:px-8 py-1 sm:py-2 shadow-[8px_8px_0px_0px_#ffffff]">
+              HALL OF FAME?
+            </span>
+          </h1>
+        </ScrollReveal>
 
         {/* Lead Tagline */}
         <ScrollReveal direction="up" distance="25px" delay={80}>
