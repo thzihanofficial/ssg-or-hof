@@ -6,7 +6,7 @@
 
 An interactive storytelling website about spacecraft and rovers left on the Moon, on Mars and in deep space, written for high school students.
 
-**Live demo:** [https://ssg-or-hof.vercel.app](https://ssg-or-hof.vercel.app)
+**Live App On this Url:** [https://ssg-or-hof.vercel.app](https://ssg-or-hof.vercel.app)
 
 
 **NASA Space Apps Challenge 2026** · Team **Universe Breakers**, Bangladesh
